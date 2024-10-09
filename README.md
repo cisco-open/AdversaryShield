@@ -13,7 +13,7 @@ Other services used are:
 
 ## Service Diagram
 
-![Diagram](https://wwwin-github.cisco.com/chflemin/AML-LLM-Defense/blob/dev-backend/Diagram.jpeg)
+![Diagram](https://github.com/AdversaryShield/main/Diagram.jpeg)
 
 ## Getting started
 ### Dependencies
