@@ -1,0 +1,7 @@
+uWSGI
+Flask[async]
+requests
+cryptography
+typing
+pydantic
+pyhelm3

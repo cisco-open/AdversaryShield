@@ -1,0 +1,7 @@
+uWSGI==2.0.17.1
+Flask
+Flask-MySQL
+PyMySQL
+mysql-connector-python
+cryptography
+requests
