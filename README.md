@@ -13,7 +13,7 @@ Other services used are:
 
 ## Service Diagram
 
-![Diagram](https://github.com/AdversaryShield/main/Diagram.jpeg)
+![Diagram](https://github.com/AdversaryShield/tree/main/Diagram.jpeg)
 
 ## Getting started
 ### Dependencies
