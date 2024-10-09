@@ -13,7 +13,7 @@ Other services used are:
 
 ## Service Diagram
 
-![Diagram]([https://github.com/AdversaryShield/tree/main/Diagram.jpeg])
+![Diagram](https://github.com/cisco-open/AdversaryShield/blob/main/Diagram.jpeg)
 
 ## Getting started
 ### Dependencies
