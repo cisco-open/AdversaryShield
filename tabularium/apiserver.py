@@ -23,13 +23,13 @@ tabularium = Tabularium(app=app)
 
 
 # CREATE
-@app.route("/plugins", methods=["POST"])
-def create_plugin() -> Response:
+@app.route("/defenses", methods=["POST"])
+def create_defense() -> Response:
     """
-    Creates plugin and parameters entries based on provided JSON.
+    Creates defense and parameters entries based on provided JSON.
     """
     try:
-        tabularium.create_plugin(plugin_dict=request.json)
+        tabularium.create_defense(defense_dict=request.json)
         
         return Response(status=201)
     except Exception as e:
@@ -38,29 +38,29 @@ def create_plugin() -> Response:
 
 
 # READ
-@app.route("/plugins", methods=["GET"])
-def read_plugins() -> Response:
+@app.route("/defenses", methods=["GET"])
+def read_defenses() -> Response:
     """
-    Reads plugins from 'plugins' table and parameters from 'parameters' table and return as JSON.
+    Reads defenses from 'defenses' table and parameters from 'parameters' table and return as JSON.
     """
     try:
-        plugins_dict = tabularium.read_plugins()
+        defenses_dict = tabularium.read_defenses()
 
-        return Response(response=json.dumps(plugins_dict), status=200)
+        return Response(response=json.dumps(defenses_dict), status=200)
     except Exception as e:
         print("Exception:", e, str(e))
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
     
 
-@app.route("/plugins/<int:plugin_id>", methods=["GET"])
-def read_plugin(plugin_id: int) -> Response:
+@app.route("/defenses/<int:defense_id>", methods=["GET"])
+def read_defense(defense_id: int) -> Response:
     """
-    Reads plugin from 'plugins' table and parameters from 'parameters' table.
+    Reads defense from 'defenses' table and parameters from 'parameters' table.
     """
     try:
-        plugin_dict = tabularium.read_plugin(plugin_id=plugin_id)
+        defense_dict = tabularium.read_defense(defense_id=defense_id)
 
-        return Response(response=json.dumps(plugin_dict), status=200)
+        return Response(response=json.dumps(defense_dict), status=200)
     except Exception as e:
         print("Exception:", e, str(e))
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
@@ -81,14 +81,14 @@ def read_releases() -> Response:
 
 
 # UPDATE
-@app.route("/plugins/<int:plugin_id>", methods=["PUT"])
-def update_plugin(plugin_id: int) -> Response:
+@app.route("/defenses/<int:defense_id>", methods=["PUT"])
+def update_defense(defense_id: int) -> Response:
     # ToDo: Align with new route and logic
     """
-    Updates plugins and parameters into database based on provided JSON.
+    Updates defenses and parameters into database based on provided JSON.
     """
     try:
-        tabularium.update_plugin(plugin_dict=request.json)
+        tabularium.update_defense(defense_dict=request.json)
 
         return Response(status=200)
     except Exception as e:
@@ -97,13 +97,13 @@ def update_plugin(plugin_id: int) -> Response:
 
 
 # DELETE
-@app.route("/plugins/<int:plugin_id>", methods=["DELETE"])
-def delete_plugin(plugin_id: int) -> Response:
+@app.route("/defenses/<int:defense_id>", methods=["DELETE"])
+def delete_defense(defense_id: int) -> Response:
     """
-    Deletes plugin and parameters from database.
+    Deletes defense and parameters from database.
     """
     try:
-        tabularium.delete_plugin_and_parameters(plugin_id=plugin_id)
+        tabularium.delete_defense_and_parameters(defense_id=defense_id)
 
         return Response(status=204)
     except Exception as e:
@@ -127,15 +127,15 @@ def run():
 
 
 # TEST
-@app.route("/test/plugins", methods=["GET"])
-def get_plugins() -> Response:
+@app.route("/test/defenses", methods=["GET"])
+def get_defenses() -> Response:
     """
-    Gets plugins.
+    Gets defenses.
     """
     try:
-        plugins_dict = tabularium.get_plugins()
+        defenses_dict = tabularium.get_defenses()
 
-        return Response(response=json.dumps(plugins_dict), status=200)
+        return Response(response=json.dumps(defenses_dict), status=200)
     except Exception as e:
         print("Exception:", e, str(e))
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)

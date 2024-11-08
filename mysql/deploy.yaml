@@ -97,9 +97,9 @@ metadata:
   name: mysql-initdb-config
 data:
   init.sql: |
-    CREATE DATABASE IF NOT EXISTS amlllmdefense;
-    USE amlllmdefense;
-    CREATE TABLE plugins (
+    CREATE DATABASE IF NOT EXISTS adversaryshield;
+    USE adversaryshield;
+    CREATE TABLE defenses (
       id INT NOT NULL AUTO_INCREMENT,
       name VARCHAR(255) NOT NULL,
       repo_url VARCHAR(255) NOT NULL,
@@ -108,16 +108,17 @@ data:
     );
     CREATE TABLE parameters (
       id INT NOT NULL AUTO_INCREMENT,
-      plugin_id INT NOT NULL,
+      defense_id INT NOT NULL,
       parameter_key VARCHAR(255) NOT NULL,
       parameter_type VARCHAR(255) NOT NULL,
       default_value VARCHAR(255),
       is_mandatory BOOL NOT NULL DEFAULT 0,
       is_read_only BOOL NOT NULL DEFAULT 0,
       PRIMARY KEY (id),
-      FOREIGN KEY (plugin_id) REFERENCES plugins(id) 
+      FOREIGN KEY (defense_id) REFERENCES defenses(id) 
         ON DELETE CASCADE
     );
+
 ---
 apiVersion: v1
 kind: Service

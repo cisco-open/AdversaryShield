@@ -22,99 +22,99 @@ from marathon import Marathon
 class Tabularium():
     def __init__(self, app):
         self.mysqlmgr = MySQLManager(app=app)
-        self.plugins = self.read_plugins()
+        self.defenses = self.read_defenses()
         self.galea_dispatcher = GaleaDispacher()
         self.releases = self.galea_dispatcher.dispatch_read_all()
         self.marathon = Marathon()
         self.results = self.marathon.get_results()
 
 
-    def refresh_plugins(self):
-        self.plugins = self.read_plugins()
+    def refresh_defenses(self):
+        self.defenses = self.read_defenses()
 
     def refresh_releases(self):
         self.releases = self.galea_dispatcher.dispatch_read_all()
 
-    def get_plugins(self) -> dict:
-        return self.plugins
+    def get_defenses(self) -> dict:
+        return self.defenses
 
-    def get_plugin(self, plugin_id: int) -> dict:
-        for plugin_dict in self.plugins["plugins"]:
-            if plugin_dict["plugin"]["id"] == plugin_id:
-                return plugin_dict
+    def get_defense(self, defense_id: int) -> dict:
+        for defense_dict in self.defenses["defenses"]:
+            if defense_dict["defense"]["id"] == defense_id:
+                return defense_dict
         return  {
-                    "plugin": {}
+                    "defense": {}
                 }
     
     def get_releases(self):
         return self.releases
     
     def get_release(self, release_name: str) -> dict:
-        for plugin_dict in self.plugins["releases"]:
-            if plugin_dict["release"]["name"] == release_name:
-                return plugin_dict
+        for defense_dict in self.defenses["releases"]:
+            if defense_dict["release"]["name"] == release_name:
+                return defense_dict
         return  {
                     "release": {}
                 }
 
 
     # CREATE
-    def create_plugin(self, plugin_dict: dict) -> None:
+    def create_defense(self, defense_dict: dict) -> None:
         """
-        Creates plugin entry into 'plugins' table and parameters entries into 'parameters' table.
+        Creates defense entry into 'defenses' table and parameters entries into 'parameters' table.
 
         Arguments:
-            plugin_dict (dict): Plugin dictionary containing plugin details and its parameters
+            defense_dict (dict): defense dictionary containing defense details and its parameters
         """
-        # Create plugin record
-        self.mysqlmgr.create_plugin(name=plugin_dict["plugin"]["name"],
-                              repo_url=plugin_dict["plugin"]["repo_url"],
-                              version=plugin_dict["plugin"]["version"])
+        # Create defense record
+        self.mysqlmgr.create_defense(name=defense_dict["defense"]["name"],
+                              repo_url=defense_dict["defense"]["repo_url"],
+                              version=defense_dict["defense"]["version"])
 
-        # Read created plugin by name to get id
-        plugin_id = self.mysqlmgr.read_plugin_by_name_and_version(name=plugin_dict["plugin"]["name"], version=plugin_dict["plugin"]["version"])[0][0]
+        # Read created defense by name to get id
+        defense_id = self.mysqlmgr.read_defense_by_name_and_version(name=defense_dict["defense"]["name"], version=defense_dict["defense"]["version"])[0][0]
 
-        plugin_parameters_list = plugin_dict["plugin"]["parameters"]
-        for parameter_dict in plugin_parameters_list:
+        defense_parameters_list = defense_dict["defense"]["parameters"]
+        for parameter_dict in defense_parameters_list:
             parameter = parameter_dict["parameter"]
-            self.mysqlmgr.create_parameter(plugin_id=plugin_id, **parameter)
+            self.mysqlmgr.create_parameter(defense_id=defense_id, **parameter)
 
-        self.galea_dispatcher.dispatch_install(release_name=plugin_dict["plugin"]["name"],
-                                               repo_url=plugin_dict["plugin"]["repo_url"],
-                                               version=plugin_dict["plugin"]["version"])
+        self.galea_dispatcher.dispatch_install(release_name=defense_dict["defense"]["name"],
+                                               repo_url=defense_dict["defense"]["repo_url"],
+                                               version=defense_dict["defense"]["version"])
         
-        self.refresh_plugins()
+        self.refresh_defenses()
         self.refresh_releases()
 
 
     # READ
-    def read_plugins(self) -> dict:
+    def read_defenses(self) -> dict:
         """
-        Returns queried plugins and their parameters as a dictionary.
+        Returns queried defenses and their parameters as a dictionary.
         """
-        # Prepare plugins dict
-        plugins_dict =  {
-                            "plugins": []
+        # Prepare defenses dict
+        defenses_dict =  {
+                            "defenses": []
                         }
         
-        # Read plugins tuple(tuple)
-        plugins_tuple = self.mysqlmgr.read_plugins()
+        # Read defenses tuple(tuple)
+        defenses_tuple = self.mysqlmgr.read_defenses()
         
-        # Assemble plugin dicts from tuple(tuple)
-        for plugin_tuple in plugins_tuple:
-            # Assemble plugin dict from tuple
-            plugin_dict =   {
-                                "plugin":
+        # Assemble defense dicts from tuple(tuple)
+        for defense_tuple in defenses_tuple:
+            # Assemble defense dict from tuple
+            defense_dict =   {
+                                "defense":
                                     {
-                                        "id": plugin_tuple[0], 
-                                        "name": plugin_tuple[1], 
-                                        "repo_url": plugin_tuple[2],
-                                        "version": plugin_tuple[3]
+                                        "id": defense_tuple[0], 
+                                        "name": defense_tuple[1], 
+                                        "repo_url": defense_tuple[2],
+                                        "version": defense_tuple[3]
                                     }
                             }
             
             # Read parameters tuple(tuple)
-            parameters_tuple = self.mysqlmgr.read_parameters(plugin_id=plugin_tuple[0])
+            parameters_tuple = self.mysqlmgr.read_parameters(defense_id=defense_tuple[0])
             # Prepare parameters dict
             parameters_dict =   {
                                     "parameters": []
@@ -135,39 +135,39 @@ class Tabularium():
                                             }
                                     }
                 parameters_dict["parameters"].append(parameter_dict)
-            plugin_dict["plugin"].update(parameters_dict)
+            defense_dict["defense"].update(parameters_dict)
 
-            plugins_dict["plugins"].append(plugin_dict)
+            defenses_dict["defenses"].append(defense_dict)
         
-        return plugins_dict
+        return defenses_dict
 
 
-    def read_plugin(self, plugin_id: int) -> dict:
+    def read_defense(self, defense_id: int) -> dict:
         """
-        Returns queried plugin and its parameters as a dictionary.
+        Returns queried defense and its parameters as a dictionary.
         """
-        # Prepare plugin dict
-        plugin_dict =   {
-                            "plugin": {}
+        # Prepare defense dict
+        defense_dict =   {
+                            "defense": {}
                         }
         # Prepare parameters dict
         parameters_dict =   {
                                 "parameters": []
                             }
         
-        # Read plugin
-        plugin_tuple = self.mysqlmgr.read_plugin_by_id(id=plugin_id)
+        # Read defense
+        defense_tuple = self.mysqlmgr.read_defense_by_id(id=defense_id)
 
         # Read parameters
-        parameters_tuple = self.mysqlmgr.read_parameters(plugin_id=plugin_tuple[0][0])
+        parameters_tuple = self.mysqlmgr.read_parameters(defense_id=defense_tuple[0][0])
 
-        # Assemble plugin dict from tuple(tuple)
-        plugin_dict["plugin"].update(
+        # Assemble defense dict from tuple(tuple)
+        defense_dict["defense"].update(
                                         {
-                                            "id": plugin_tuple[0][0],
-                                            "name": plugin_tuple[0][1],
-                                            "repo_url": plugin_tuple[0][2],
-                                            "version": plugin_tuple[0][3]
+                                            "id": defense_tuple[0][0],
+                                            "name": defense_tuple[0][1],
+                                            "repo_url": defense_tuple[0][2],
+                                            "version": defense_tuple[0][3]
                                         }
                                     )
         # Assemble parameters dict from tuple(tuple)
@@ -186,64 +186,64 @@ class Tabularium():
                                 }
             parameters_dict["parameters"].append(parameter_dict)
 
-        plugin_dict["plugin"].update(parameters_dict)
+        defense_dict["defense"].update(parameters_dict)
 
-        return plugin_dict
+        return defense_dict
     
 
     # UPDATE
-    def update_plugin(self, plugin_dict: dict) -> None:
+    def update_defense(self, defense_dict: dict) -> None:
         """
-        Updates plugin record and its parameters' records.
+        Updates defense record and its parameters' records.
         """
-        # Update plugin
-        self.mysqlmgr.update_plugin(id=plugin_dict["plugin"]["id"],
-                               name=plugin_dict["plugin"]["name"], repo_url=plugin_dict["plugin"]["repo_url"], version=plugin_dict["plugin"]["version"])
+        # Update defense
+        self.mysqlmgr.update_defense(id=defense_dict["defense"]["id"],
+                               name=defense_dict["defense"]["name"], repo_url=defense_dict["defense"]["repo_url"], version=defense_dict["defense"]["version"])
 
         # Calculate deleted parameters
-        queried_parameters = self.mysqlmgr.read_parameters(plugin_id=plugin_dict["plugin"]["id"])
+        queried_parameters = self.mysqlmgr.read_parameters(defense_id=defense_dict["defense"]["id"])
         queried_parameters_ids_list = []
         for queried_parameter in queried_parameters:
             queried_parameter_id = queried_parameter[0]
             queried_parameters_ids_list.append(queried_parameter_id)
 
-        plugin_parameters_list = plugin_dict["plugin"]["parameters"]
-        plugin_parameters_ids_list = [plugin_parameter["parameter"]["id"] for plugin_parameter in plugin_parameters_list if ("id" in plugin_parameter["parameter"].keys())]
+        defense_parameters_list = defense_dict["defense"]["parameters"]
+        defense_parameters_ids_list = [defense_parameter["parameter"]["id"] for defense_parameter in defense_parameters_list if ("id" in defense_parameter["parameter"].keys())]
 
-        deleted_parameters_ids_list = [parameter_id for parameter_id in queried_parameters_ids_list if parameter_id not in plugin_parameters_ids_list]
+        deleted_parameters_ids_list = [parameter_id for parameter_id in queried_parameters_ids_list if parameter_id not in defense_parameters_ids_list]
         for parameter_id in deleted_parameters_ids_list:
             self.mysqlmgr.delete_parameter(id=parameter_id)
 
         # Update already existing parameters or create the newly added ones (identifiable by lack of id)
-        for parameter in plugin_parameters_list:
+        for parameter in defense_parameters_list:
             if "id" in parameter["parameter"].keys():
                 self.mysqlmgr.update_parameter(id=parameter["parameter"]["id"],
                                          parameter_key=parameter["parameter"]["parameter_key"], parameter_type=parameter["parameter"]["parameter_type"], default_value=parameter["parameter"]["default_value"],
                                          is_mandatory=parameter["parameter"]["is_mandatory"], is_read_only=parameter["parameter"]["is_read_only"])
             else:
-                self.mysqlmgr.create_parameter(plugin_id=plugin_dict["plugin"]["id"], **parameter["parameter"])
+                self.mysqlmgr.create_parameter(defense_id=defense_dict["defense"]["id"], **parameter["parameter"])
 
-        self.galea_dispatcher.dispatch_update(release_name=plugin_dict["plugin"]["name"],
-                                              repo_url=plugin_dict["plugin"]["repo_url"],
-                                              version=plugin_dict["plugin"]["version"])
+        self.galea_dispatcher.dispatch_update(release_name=defense_dict["defense"]["name"],
+                                              repo_url=defense_dict["defense"]["repo_url"],
+                                              version=defense_dict["defense"]["version"])
 
-        self.refresh_plugins()
+        self.refresh_defenses()
         self.refresh_releases()
 
 
     # DELETE
-    def delete_plugin_and_parameters(self, plugin_id: int) -> None:
+    def delete_defense_and_parameters(self, defense_id: int) -> None:
         """
-        Deletes plugin entry and its parameters' entries.
+        Deletes defense entry and its parameters' entries.
         """
-        # Get plugin name
-        plugin_name = self.mysqlmgr.read_plugin_by_id(id=plugin_id)[0][1]
+        # Get defense name
+        defense_name = self.mysqlmgr.read_defense_by_id(id=defense_id)[0][1]
 
-        # Delete plugin and parameters by cascade
-        self.mysqlmgr.delete_plugin(id=plugin_id)
-        self.galea_dispatcher.dispatch_delete(release_name=plugin_name)
+        # Delete defense and parameters by cascade
+        self.mysqlmgr.delete_defense(id=defense_id)
+        self.galea_dispatcher.dispatch_delete(release_name=defense_name)
 
-        self.refresh_plugins()
+        self.refresh_defenses()
         self.refresh_releases()
 
     

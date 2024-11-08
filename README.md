@@ -1,6 +1,6 @@
 # AdversaryShield
 
-This project is being developed as a solution to mitigate adversial attacks on LLMs via automatic deployment of predefined defenses.
+This project is being developed as a solution to mitigate adversial attacks on LLMs via automatic deployment of predefined plugins.
 
 ## Description
 

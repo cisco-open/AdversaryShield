@@ -50,19 +50,19 @@ class MySQLManager():
 
 
     # CREATE
-    def create_plugin(self, name: str, repo_url: str, version: str):
+    def create_defense(self, name: str, repo_url: str, version: str):
         """
-        Creates plugin entry into the 'plugins' table.
+        Creates defense entry into the 'defenses' table.
 
         Arguments:
-            name (str): Plugin name
-            repo_url (str): Plugin repository url
-            version (str): Plugin version
+            name (str): defense name
+            repo_url (str): defense repository url
+            version (str): defense version
         """
         connector = self.mysql.connect()
         cursor = connector.cursor()
 
-        query = "INSERT INTO plugins(name, repo_url, version) " \
+        query = "INSERT INTO defenses(name, repo_url, version) " \
                 "VALUES(%s, %s, %s)"
         args = (name, repo_url, version)
 
@@ -74,7 +74,7 @@ class MySQLManager():
 
 
     def create_parameter(self,
-                         plugin_id: int,
+                         defense_id: int,
                          parameter_key: str, parameter_type: str,
                          is_mandatory: bool, is_read_only: bool,
                          default_value: Union[int, str, bool, None] = None):
@@ -82,7 +82,7 @@ class MySQLManager():
         Creates parameter entry into the 'parameters' table.
 
         Arguments:
-            plugin_id (int): Plugin id
+            defense_id (int): defense id
             parameter_key (str): Parameter name
             parameter_type (str): Parameter type
             default_value (type): Default value of parameter
@@ -92,75 +92,75 @@ class MySQLManager():
         connector = self.mysql.connect()
         cursor = connector.cursor()
 
-        query = "INSERT INTO parameters(plugin_id, " \
+        query = "INSERT INTO parameters(defense_id, " \
                 "parameter_key, parameter_type, " \
                 "default_value, " \
                 "is_mandatory, is_read_only) " \
                 "VALUES(%s, %s, %s, %s, %s, %s)"
-        args = (plugin_id, parameter_key, parameter_type, default_value, is_mandatory, is_read_only)
+        args = (defense_id, parameter_key, parameter_type, default_value, is_mandatory, is_read_only)
 
         cursor.execute(query=query, args=args)
         connector.commit()
 
 
     # READ
-    def read_plugin_by_id(self, id: str) -> tuple:
+    def read_defense_by_id(self, id: str) -> tuple:
         """
-        Returns query response for entry within 'plugins' table based on provided plugin id.
+        Returns query response for entry within 'defenses' table based on provided defense id.
 
         Returns:
-            plugins_ruple (tuple): Tuple containing the query response as 
+            defenses_ruple (tuple): Tuple containing the query response as 
                                     ((id, name, repo_url, version),)
         """
         connector = self.mysql.connect()
         cursor = connector.cursor()
 
-        query = "SELECT * FROM plugins " \
+        query = "SELECT * FROM defenses " \
                 "WHERE id=%s"
         args = (id)
 
         cursor.execute(query=query, args=args)
-        plugin_tuple = cursor.fetchall()
+        defense_tuple = cursor.fetchall()
 
         cursor.close()
         connector.close()
 
-        return plugin_tuple
+        return defense_tuple
 
-    def read_plugin_by_name_and_version(self, name: str, version: str) -> tuple:
+    def read_defense_by_name_and_version(self, name: str, version: str) -> tuple:
         """
-        Returns query response for entry within 'plugins' table based on provided plugin name.
+        Returns query response for entry within 'defenses' table based on provided defense name.
         Usually used to get the id after creation.
 
         Returns:
-            plugins (tuple): Tuple containing the query response as 
+            defenses (tuple): Tuple containing the query response as 
                                 ((id, name, repo_url, version),)
         """
         connector = self.mysql.connect()
         cursor = connector.cursor()
 
-        query = "SELECT * FROM plugins " \
+        query = "SELECT * FROM defenses " \
                 "WHERE name=%s AND version=%s"
         args = (name, version)
 
         cursor.execute(query=query, args=args)
-        plugin = cursor.fetchall()
+        defense = cursor.fetchall()
 
         cursor.close()
         connector.close()
 
-        return plugin
+        return defense
     
     def read_parameter(self, id: int) -> tuple:
         """
         Returns query response for parameter entry.
 
         Arguments:
-            id (int): Plugin id
+            id (int): defense id
 
         Returns:
             parameter (tuple): Tuple containing the query response as 
-                                ((id, plugin_id, parameter_key, parameter_type, default_value, is_mandatory, is_read_only),)
+                                ((id, defense_id, parameter_key, parameter_type, default_value, is_mandatory, is_read_only),)
         """
         connector = self.mysql.connect()
         cursor = connector.cursor()
@@ -178,45 +178,45 @@ class MySQLManager():
         return parameter
 
 
-    def read_plugins(self) -> tuple:
+    def read_defenses(self) -> tuple:
         """
-        Returns query response for all entries within 'plugins' table.
+        Returns query response for all entries within 'defenses' table.
 
         Returns:
-            plugins (tuple): Tuple containing the query response as 
+            defenses (tuple): Tuple containing the query response as 
                                 ((id, name, repo_url, version), ...)
         """
         connector = self.mysql.connect()
         cursor = connector.cursor()
 
-        query = "SELECT * FROM plugins"
+        query = "SELECT * FROM defenses"
 
         cursor.execute(query=query)
-        plugins_tuple = cursor.fetchall()
+        defenses_tuple = cursor.fetchall()
 
         cursor.close()
         connector.close()
 
-        return plugins_tuple
+        return defenses_tuple
 
 
-    def read_parameters(self, plugin_id: int) -> tuple:
+    def read_parameters(self, defense_id: int) -> tuple:
         """
-        Returns query response for all entries within 'parameters' table corresponding to the provided plugin.
+        Returns query response for all entries within 'parameters' table corresponding to the provided defense.
 
         Arguments:
-            plugin_id (int): Plugin id
+            defense_id (int): defense id
 
         Returns:
             parameters (tuple): Tuple containing the query response as 
-                                ((id, plugin_id, parameter_key, parameter_type, default_value, is_mandatory, is_read_only), ...)
+                                ((id, defense_id, parameter_key, parameter_type, default_value, is_mandatory, is_read_only), ...)
         """
         connector = self.mysql.connect()
         cursor = connector.cursor()
 
         query = "SELECT * FROM parameters " \
-                "WHERE plugin_id=%s"
-        args = (plugin_id)
+                "WHERE defense_id=%s"
+        args = (defense_id)
 
         cursor.execute(query=query, args=args)
         parameters = cursor.fetchall()
@@ -228,20 +228,20 @@ class MySQLManager():
 
 
     # UPDATE
-    def update_plugin(self, id: int, name: str, repo_url: str, version: str):
+    def update_defense(self, id: int, name: str, repo_url: str, version: str):
         """
-        Updates a plugin based on the received data.
+        Updates a defense based on the received data.
 
         Parameters:
-            id (int): Plugin id
-            name (str): Plugin name
-            repo_url (str): Plugin url
-            version (str): Plugin version
+            id (int): defense id
+            name (str): defense name
+            repo_url (str): defense url
+            version (str): defense version
         """
         connector = self.mysql.connect()
         cursor = connector.cursor()
 
-        query = "UPDATE plugins " \
+        query = "UPDATE defenses " \
                 "SET  name=%s, repo_url=%s, version=%s " \
                 "WHERE id=%s"
         args = (name, repo_url, version, id)
@@ -286,17 +286,17 @@ class MySQLManager():
 
 
     # DELETE
-    def delete_plugin(self, id: int):
+    def delete_defense(self, id: int):
         """
-        Deletes the plugin entry.
+        Deletes the defense entry.
 
         Parameters:
-            id (int): Plugin id
+            id (int): defense id
         """
         connector = self.mysql.connect()
         cursor = connector.cursor()
 
-        query = "DELETE FROM plugins " \
+        query = "DELETE FROM defenses " \
                 "WHERE id=%s"
         args = (id)
 
@@ -326,19 +326,19 @@ class MySQLManager():
         cursor.close()
         connector.close()
 
-    def delete_parameters(self, plugin_id: int):
+    def delete_parameters(self, defense_id: int):
         """
-        Deletes the parameters entries of a plugin.
+        Deletes the parameters entries of a defense.
 
         Parameters:
-            plugin_id (id): Parameter's plugin id
+            defense_id (id): Parameter's defense id
         """
         connector = self.mysql.connect()
         cursor = connector.cursor()
 
         query = "DELETE FROM parameters " \
-                "WHERE plugin_id=%s"
-        args = (plugin_id)
+                "WHERE defense_id=%s"
+        args = (defense_id)
 
         cursor.execute(query=query, args=args)
         connector.commit()

@@ -18,7 +18,7 @@ import requests
 
 
 release_cluster_url = ".default.svc.cluster.local:80"
-plugin_run_endpoint = "/run"
+defense_run_endpoint = "/run"
 
 class Marathon():
     """
@@ -34,31 +34,31 @@ class Marathon():
         return self.results
     
 
-    def get_result(self, plugin: str) -> dict:
+    def get_result(self, defense: str) -> dict:
         for result in self.results["results"]:
-            if plugin == result["plugin"]:
+            if defense == result["defense"]:
                 return result
         return {}
 
 
-    def delete_result(self, plugin: str):
+    def delete_result(self, defense: str):
         for result_index in range(len(self.results["results"])):
-            if plugin == self.results["results"][result_index]["result"]["plugin"]:
+            if defense == self.results["results"][result_index]["result"]["defense"]:
                 self.results["results"].pop(result_index)
                 break
 
 
     def update_results(self, result_dict: dict):
-        self.delete_result(result_dict["result"]["plugin"])
+        self.delete_result(result_dict["result"]["defense"])
         self.results["results"].append(result_dict)
 
 
     def run(self, test_dict: dict) -> dict:
-        result = requests.post(url=f"http://{test_dict['test']['plugin']}{release_cluster_url}{plugin_run_endpoint}", json=test_dict, timeout=None)
+        result = requests.post(url=f"http://{test_dict['test']['defense']}{release_cluster_url}{defense_run_endpoint}", json=test_dict, timeout=None)
         result_dict =   {
                             "result": 
                                 {
-                                    "plugin": test_dict["test"]["plugin"],
+                                    "defense": test_dict["test"]["defense"],
                                     "prompt": test_dict["test"]["prompt"],
                                     "parameters": test_dict["test"]["parameters"],
                                     "output": result.content.decode('utf-8')
