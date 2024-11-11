@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: tabularium
-          image: <username>/tabularium:latest
+          image: adversaryshield/tabularium:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000

@@ -118,6 +118,12 @@ data:
       FOREIGN KEY (defense_id) REFERENCES defenses(id) 
         ON DELETE CASCADE
     );
+    CREATE TABLE languagemodels (
+      id INT NOT NULL AUTO_INCREMENT,
+      model VARCHAR(255) NOT NULL,
+      url VARCHAR(255) NOT NULL,
+      PRIMARY KEY (id, model, url)
+    );
 
 ---
 apiVersion: v1

@@ -65,7 +65,7 @@ spec:
       serviceAccountName: master-sa
       containers:
         - name: galea
-          image: <username>/galea:latest
+          image: adversaryshield/galea:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000

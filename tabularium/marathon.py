@@ -53,15 +53,36 @@ class Marathon():
         self.results["results"].append(result_dict)
 
 
-    def run(self, test_dict: dict) -> dict:
-        result = requests.post(url=f"http://{test_dict['test']['defense']}{release_cluster_url}{defense_run_endpoint}", json=test_dict, timeout=None)
+    def run(self, defense_run_dict: dict) -> dict:
+        """
+        defense_run_dict = 
+        {
+            "defense": ExampleDefense,
+            "parameters":
+                {
+                    "message": {
+                                    "role": "user",
+                                    "content": "Example prompt."
+                                },
+                    "defense": {
+                                    "example_defense_parameter": example
+                                }
+                    "targetmodel": {
+                                        "model": "ExampleModel",
+                                        "url": "http://example.url:exampleport/example/path",
+                                        "method": "example_method",
+                                        "arguments": null
+                                    }
+                }
+        }
+        """
+        result = requests.post(url=f"http://{defense_run_dict['defense']}{release_cluster_url}{defense_run_endpoint}", json=defense_run_dict["parameters"], timeout=None)
         result_dict =   {
                             "result": 
                                 {
-                                    "defense": test_dict["test"]["defense"],
-                                    "prompt": test_dict["test"]["prompt"],
-                                    "parameters": test_dict["test"]["parameters"],
-                                    "output": result.content.decode('utf-8')
+                                    "defense": defense_run_dict["defense"],
+                                    "parameters": defense_run_dict["parameters"],
+                                    "result": result.json()
                                 }
                         }
         
