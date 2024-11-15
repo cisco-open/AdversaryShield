@@ -1,28 +1,28 @@
 # Tabularium
 ## Component overview
-Tabularium is the component used for storing plugin data and their parameters into a MySQL DataBase. The service's functionalities are wrapped into an _API server_.
+Tabularium is the component used for storing defense data and their parameters into a MySQL DataBase. The service's functionalities are wrapped into an _API server_.
 
 ## Endpoints and Functionalities
-- **_Plugin creation_** 
-    Endpoint: /plugins
+- **_Defense creation_** 
+    Endpoint: /defenses
     Methods: POST
-    Functionality: Creates plugin record and its parameters within MySQL DB
-- **_Plugins reading_**
-    Endpoint: /plugins
+    Functionality: Creates defense record and its parameters within MySQL DB
+- **_Defenses reading_**
+    Endpoint: /defenses
     Methods: GET
-    Functionality: Reads all plugins details and their parameters from DB
-- **_Plugin reading_**
-    Endpoint: /plugins/_<plugin>_
+    Functionality: Reads all defenses details and their parameters from DB
+- **_Defense reading_**
+    Endpoint: /defenses/_<defense>_
     Methods: GET
-    Functionality: Reads plugin details and its parameters from DB
-- **_Plugin update_**
-    Endpoint: /plugins
+    Functionality: Reads defense details and its parameters from DB
+- **_Defense update_**
+    Endpoint: /defenses
     Methods: PUT
-    Functionality: Updates plugin details and parameters into DB
-- **_Plugin deletion_**
-    Endpoint: /plugins/delete
+    Functionality: Updates defense details and parameters into DB
+- **_Defense deletion_**
+    Endpoint: /defenses/delete
     Methods: POST
-    Functionality: Deletes one or more plugin records from MySQL DB based on JSON payload
+    Functionality: Deletes one or more defense records from MySQL DB based on JSON payload
 
 ## Requirements
 - Python packages (and their dependencies):

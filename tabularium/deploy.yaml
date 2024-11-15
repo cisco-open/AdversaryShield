@@ -43,7 +43,7 @@ spec:
                   name: mysql-secrets
                   key: db_root_password
             - name: db_name
-              value: amlllmdefense
+              value: adversaryshield
 ---
 apiVersion: v1
 kind: Service

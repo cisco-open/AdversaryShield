@@ -1,12 +1,12 @@
 # AdversaryShield
 
-This project is being developed as a solution to mitigate adversial attacks on LLMs via automatic deployment of predefined plugins.
+This project is being developed as a solution to mitigate adversial attacks on LLMs via automatic deployment of predefined defenses.
 
 ## Description
 
 __AdversaryShield__ project is composed of three main services: 
-- __Tabularium__ provides the administrator with an interface to CRUD plugins and store into the DB;
-- __Galea__ creates the containers to run the plugins based on manager configuration and helm charts;
+- __Tabularium__ provides the administrator with an interface to CRUD defenses and store into the DB;
+- __Galea__ creates the containers to run the defenses based on manager configuration and helm charts;
 
 Other services used are:
 - __\<Database\>__: Used to store user test suites.
@@ -27,8 +27,8 @@ ToDo: Run the __launch.sh__ script.
 
 ### Usage
 
-Launch the application and use the Strategos provided interface to store the plugins (and their parameters) via the plugins view.
-__WIP__: The run view will provide the user with the posibility of running a prompt through the plugins towards the desired LLM and have the outputs filtered in case of adversial attacks. Outputs with respective inputs will be tracked within the database for later review of mitigations.
+Launch the application and use the Strategos provided interface to store the defenses (and their parameters) via the defenses view.
+__WIP__: The run view will provide the user with the posibility of running a prompt through the defenses towards the desired LLM and have the outputs filtered in case of adversial attacks. Outputs with respective inputs will be tracked within the database for later review of mitigations.
 
 ## Authors
 - Charles Fleming (chfleming@cisco.com), Project Manager
