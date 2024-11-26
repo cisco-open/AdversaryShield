@@ -36,19 +36,6 @@ class MySQLManager():
         self.app.config["MYSQL_DATABASE_PORT"] = int(os.getenv("MYSQL_SERVICE_PORT"))
         self.mysql.init_app(self.app)
 
-
-    def reinit_mysql(self):
-        """
-        Reinitialisation function for MySQL connection in case the service fails or suffers modifications resulting in rollout.
-        """
-        self.app.config["MYSQL_DATABASE_USER"] = "root"
-        self.app.config["MYSQL_DATABASE_PASSWORD"] = os.getenv("db_root_password")
-        self.app.config["MYSQL_DATABASE_DB"] = os.getenv("db_name")
-        self.app.config["MYSQL_DATABASE_HOST"] = os.getenv("MYSQL_SERVICE_HOST")
-        self.app.config["MYSQL_DATABASE_PORT"] = int(os.getenv("MYSQL_SERVICE_PORT"))
-        self.mysql.init_app(self.app)
-
-
     # CREATE
     def create_defense(self, name: str, repo_url: str, version: str):
         """
@@ -71,7 +58,6 @@ class MySQLManager():
         
         cursor.close()
         connector.close()
-
 
     def create_parameter(self,
                          defense_id: int,
@@ -102,6 +88,26 @@ class MySQLManager():
         cursor.execute(query=query, args=args)
         connector.commit()
 
+    def create_model(self, model: str, url: str):
+        """
+        Creates language model entry into the 'languagemodels' table.
+
+        Arguments:
+            model (str): model name
+            url (str): target model's url
+        """
+        connector = self.mysql.connect()
+        cursor = connector.cursor()
+
+        query = "INSERT INTO languagemodels(model, url) " \
+                "VALUES(%s, %s)"
+        args = (model, url)
+
+        cursor.execute(query=query, args=args)
+        connector.commit()
+        
+        cursor.close()
+        connector.close()
 
     # READ
     def read_defense_by_id(self, id: str) -> tuple:
@@ -177,7 +183,6 @@ class MySQLManager():
 
         return parameter
 
-
     def read_defenses(self) -> tuple:
         """
         Returns query response for all entries within 'defenses' table.
@@ -198,7 +203,6 @@ class MySQLManager():
         connector.close()
 
         return defenses_tuple
-
 
     def read_parameters(self, defense_id: int) -> tuple:
         """
@@ -226,6 +230,49 @@ class MySQLManager():
 
         return parameters
 
+    def read_models(self) -> tuple:
+        """
+        Returns query response for all entries within 'languagemodels' table.
+
+        Returns:
+            models (tuple): Tuple containing the query response as 
+                                ((id, model, url), ...)
+        """
+        connector = self.mysql.connect()
+        cursor = connector.cursor()
+
+        query = "SELECT * FROM languagemodels"
+
+        cursor.execute(query=query)
+        models_tuple = cursor.fetchall()
+
+        cursor.close()
+        connector.close()
+
+        return models_tuple
+    
+    def read_model_by_id(self, id: int) -> tuple:
+        """
+        Returns query response for entry within 'languagemodels' table based on provided model id.
+
+        Returns:
+            defenses_ruple (tuple): Tuple containing the query response as 
+                                    ((id, model, url),)
+        """
+        connector = self.mysql.connect()
+        cursor = connector.cursor()
+
+        query = "SELECT * FROM languagemodels " \
+                "WHERE id=%s"
+        args = (id)
+
+        cursor.execute(query=query, args=args)
+        model_tuple = cursor.fetchall()
+
+        cursor.close()
+        connector.close()
+
+        return model_tuple
 
     # UPDATE
     def update_defense(self, id: int, name: str, repo_url: str, version: str):
@@ -251,7 +298,6 @@ class MySQLManager():
         
         cursor.close()
         connector.close()
-
 
     def update_parameter(self,
                          id: int,
@@ -284,6 +330,28 @@ class MySQLManager():
         cursor.close()
         connector.close()
 
+    def update_model(self, id: int, model: str, url: str):
+        """
+        Updates a model based on the received data.
+
+        Parameters:
+            id (int): model id
+            model (str): model name
+            url (str): model url
+        """
+        connector = self.mysql.connect()
+        cursor = connector.cursor()
+
+        query = "UPDATE languagemodels " \
+                "SET model=%s, url=%s, " \
+                "WHERE id=%s"
+        args = (model, url, id)
+
+        cursor.execute(query=query, args=args)
+        connector.commit()
+        
+        cursor.close()
+        connector.close()
 
     # DELETE
     def delete_defense(self, id: int):
@@ -339,6 +407,26 @@ class MySQLManager():
         query = "DELETE FROM parameters " \
                 "WHERE defense_id=%s"
         args = (defense_id)
+
+        cursor.execute(query=query, args=args)
+        connector.commit()
+
+        cursor.close()
+        connector.close()
+
+    def delete_model(self, id: int):
+        """
+        Deletes the model entry.
+
+        Parameters:
+            id (id): Model's id
+        """
+        connector = self.mysql.connect()
+        cursor = connector.cursor()
+
+        query = "DELETE FROM languagemodels " \
+                "WHERE id=%s"
+        args = (id)
 
         cursor.execute(query=query, args=args)
         connector.commit()

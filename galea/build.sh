@@ -15,4 +15,4 @@
 # SPDX-License-Identifier: Apache-2.0
 
 eval $(minikube docker-env)
-docker build -t "$1/galea" -f "$(dirname $0)/Dockerfile" .
+docker build -t "adversaryshield/galea" -f "$(dirname $0)/Dockerfile" .

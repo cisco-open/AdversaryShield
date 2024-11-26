@@ -118,7 +118,7 @@ def run():
     Runs test.
     """
     try:
-        result_dict = tabularium.marathon.run(test_dict=request.json)
+        result_dict = tabularium.marathon.run(defense_run_dict=request.json)
 
         return Response(response=json.dumps(result_dict), status=201)
     except Exception as e:

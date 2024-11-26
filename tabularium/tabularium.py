@@ -57,7 +57,6 @@ class Tabularium():
                     "release": {}
                 }
 
-
     # CREATE
     def create_defense(self, defense_dict: dict) -> None:
         """
@@ -85,7 +84,6 @@ class Tabularium():
         
         self.refresh_defenses()
         self.refresh_releases()
-
 
     # READ
     def read_defenses(self) -> dict:
@@ -141,7 +139,6 @@ class Tabularium():
         
         return defenses_dict
 
-
     def read_defense(self, defense_id: int) -> dict:
         """
         Returns queried defense and its parameters as a dictionary.
@@ -190,7 +187,6 @@ class Tabularium():
 
         return defense_dict
     
-
     # UPDATE
     def update_defense(self, defense_dict: dict) -> None:
         """
@@ -230,7 +226,6 @@ class Tabularium():
         self.refresh_defenses()
         self.refresh_releases()
 
-
     # DELETE
     def delete_defense_and_parameters(self, defense_id: int) -> None:
         """
@@ -246,12 +241,11 @@ class Tabularium():
         self.refresh_defenses()
         self.refresh_releases()
 
-    
     # RUN
-    def run(self, test_dict: dict) -> dict:
+    def run(self, defense_run_dict: dict) -> dict:
         """
         Runs test via Marathon.
         """
-        result_dict = self.marathon.run(test_dict=test_dict)
+        result_dict = self.marathon.run(defense_run_dict=defense_run_dict)
 
         return result_dict
