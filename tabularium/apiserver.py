@@ -18,7 +18,7 @@ import json
 from flask import Flask, request, Response, send_from_directory
 from tabularium import Tabularium
 
-app = Flask(__name__, static_folder="frontend/build", static_url_path='')
+app = Flask(__name__, static_folder="frontend/build/browser", static_url_path='')
 tabularium = Tabularium(app=app)
 
 
