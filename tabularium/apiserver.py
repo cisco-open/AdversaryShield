@@ -23,7 +23,7 @@ tabularium = Tabularium(app=app)
 
 
 # CREATE
-@app.route("/defenses", methods=["POST"])
+@app.route("/api/defenses", methods=["POST"])
 def create_defense() -> Response:
     """
     Creates defense and parameters entries based on provided JSON.
@@ -38,7 +38,7 @@ def create_defense() -> Response:
 
 
 # READ
-@app.route("/defenses", methods=["GET"])
+@app.route("/api/defenses", methods=["GET"])
 def read_defenses() -> Response:
     """
     Reads defenses from 'defenses' table and parameters from 'parameters' table and return as JSON.
@@ -52,7 +52,7 @@ def read_defenses() -> Response:
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
     
 
-@app.route("/defenses/<int:defense_id>", methods=["GET"])
+@app.route("/api/defenses/<int:defense_id>", methods=["GET"])
 def read_defense(defense_id: int) -> Response:
     """
     Reads defense from 'defenses' table and parameters from 'parameters' table.
@@ -66,7 +66,7 @@ def read_defense(defense_id: int) -> Response:
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
     
 
-@app.route("/releases", methods=["GET"])
+@app.route("/api/releases", methods=["GET"])
 def read_releases() -> Response:
     """
     Reads releases.
@@ -81,7 +81,7 @@ def read_releases() -> Response:
 
 
 # UPDATE
-@app.route("/defenses/<int:defense_id>", methods=["PUT"])
+@app.route("/api/defenses/<int:defense_id>", methods=["PUT"])
 def update_defense(defense_id: int) -> Response:
     # ToDo: Align with new route and logic
     """
@@ -97,7 +97,7 @@ def update_defense(defense_id: int) -> Response:
 
 
 # DELETE
-@app.route("/defenses/<int:defense_id>", methods=["DELETE"])
+@app.route("/api/defenses/<int:defense_id>", methods=["DELETE"])
 def delete_defense(defense_id: int) -> Response:
     """
     Deletes defense and parameters from database.
@@ -112,7 +112,7 @@ def delete_defense(defense_id: int) -> Response:
 
 
 # RUN
-@app.route("/run", methods=["POST"])
+@app.route("/api/run", methods=["POST"])
 def run():
     """
     Runs test.
@@ -127,7 +127,7 @@ def run():
 
 
 # TEST
-@app.route("/test/defenses", methods=["GET"])
+@app.route("/api/test/defenses", methods=["GET"])
 def get_defenses() -> Response:
     """
     Gets defenses.
@@ -141,7 +141,7 @@ def get_defenses() -> Response:
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
     
 
-@app.route("/test/releases", methods=["GET"])
+@app.route("/api/test/releases", methods=["GET"])
 def get_releases() -> Response:
     """
     Gets releases.
