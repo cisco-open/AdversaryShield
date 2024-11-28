@@ -1,0 +1,59 @@
+@use 'typography';
+
+.key-value-container.single {
+	display: grid;
+	grid-template-columns: repeat(1, 1fr);
+}
+
+.key-value-container.two-per-row {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.key-value-container.three-per-row {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.key-value-container.flexible {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.key-value-container.dense {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	.key-value-pair {
+		flex-basis: calc(50% - 6px);
+		margin-bottom: 12px;
+	}
+}
+
+@media (max-width: 768px) {
+	.key-value-container.dense .key-value-pair {
+		flex-basis: 100%;
+	}
+}
+
+.key-value-pair {
+	display: flex;
+	align-items: center;
+	padding: 6px 0;
+}
+
+.key-value-pair.space-between {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.key-value-key {
+	@include typography.paragraph-semibold-p3-default-emphasis;
+}
+
+.key-value-value {
+	@include typography.paragraph-regular-p3-default;
+	margin-left: 5px;
+}

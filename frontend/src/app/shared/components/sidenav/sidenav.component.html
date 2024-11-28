@@ -1,0 +1,26 @@
+<div class="sidenav mt-2">
+	<div class="logo-container">
+		<img class="shield-image" src="/assets/logo/shield.svg" alt="Shield Icon" />
+		<div class="logo-text">Advisory Shield</div>
+	</div>
+
+	<div class="m-4">
+		<mat-divider></mat-divider>
+	</div>
+
+	<div class="sidenav-wrapper mt-4">
+		<div class="sidenav-item mb-4" *ngFor="let sidenav of sidebarMenu">
+			<a
+				matRipple
+				[matRippleColor]="'#f7f8f443'"
+				[routerLink]="sidenav.link"
+				class="sidebar-menu"
+				[routerLinkActive]="routerActive">
+				<div class="mr-4">
+					<mat-icon>{{ sidenav.icon }}</mat-icon>
+				</div>
+				<div>{{ sidenav.label }}</div>
+			</a>
+		</div>
+	</div>
+</div>

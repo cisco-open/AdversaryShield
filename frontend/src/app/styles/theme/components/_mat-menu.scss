@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+:root {
+	@include mat.menu-overrides(
+		(
+			item-label-text-size: 14px
+		)
+	);
+}

@@ -1,0 +1,48 @@
+<ng-container [formArrayName]="controlKey()">
+	@for (param of controlKeyFormArray.controls; track param; let i = $index) {
+		<div class="parameter-wrapper" [formGroupName]="i">
+			<div class="parameter-title-wrapper mb-6">
+				<div class="parameter-title paragraph-semibold-p3-default-emphasis">Parameter {{ i }}</div>
+				<div class="parameter-remove">
+					<button mat-icon-button (click)="removeParameter(i)">
+						<mat-icon class="mat-error">remove_circle_outline</mat-icon>
+					</button>
+				</div>
+			</div>
+
+			<div class="parameter-form-controls">
+				<div class="parameter-type">
+					<mat-form-field>
+						<mat-label>Type</mat-label>
+						<mat-select formControlName="type" formErrorDisplay>
+							<mat-option value="string">String</mat-option>
+							<mat-option value="integer">Integer</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+
+				<div class="parameter-key">
+					<mat-form-field>
+						<mat-label>Key</mat-label>
+						<input matInput formControlName="key" formErrorDisplay />
+					</mat-form-field>
+				</div>
+
+				<div class="parameter-default-value">
+					<mat-form-field>
+						<mat-label>Default value</mat-label>
+						<input matInput formControlName="defaultValue" formErrorDisplay />
+					</mat-form-field>
+				</div>
+
+				<div class="parameter-is-mandatory">
+					<mat-checkbox formControlName="isMandatory" formErrorDisplay>Is mandatory?</mat-checkbox>
+				</div>
+
+				<div class="parameter-is-readonly">
+					<mat-checkbox formControlName="isReadOnly" formErrorDisplay>Is read only?</mat-checkbox>
+				</div>
+			</div>
+		</div>
+	}
+</ng-container>

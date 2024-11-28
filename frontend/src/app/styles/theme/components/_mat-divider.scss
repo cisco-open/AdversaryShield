@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+:root {
+	@include mat.divider-overrides(
+		(
+			color: rgba(113, 122, 131, 0.2)
+		)
+	);
+}

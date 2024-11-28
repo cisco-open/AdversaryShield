@@ -1,0 +1,8 @@
+@use '@angular/material' as mat;
+
+:root {
+	.mat-mdc-mini-fab.mat-success {
+		--mdc-fab-small-container-color: var(--success-500);
+		--mat-fab-small-foreground-color: var(--foregrounds-50);
+	}
+}

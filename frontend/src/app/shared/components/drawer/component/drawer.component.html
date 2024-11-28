@@ -1,0 +1,37 @@
+<div class="drawer-wrapper" [ngStyle]="data.width | drawerSizeStyles">
+	<div class="drawer-header">
+		<ng-container *ngTemplateOutlet="headerTemplate() || defaultDrawerHeader"></ng-container>
+		<ng-template #defaultDrawerHeader>
+			<div class="drawer-header-wrapper">
+				<div class="heading-section-title">{{ data.title }}</div>
+				<div class="close-icon">
+					<button mat-icon-button (click)="onDismiss()">
+						<mat-icon class="mat-error">close</mat-icon>
+					</button>
+				</div>
+			</div>
+		</ng-template>
+	</div>
+
+	<div class="drawer-content">
+		<ng-content></ng-content>
+	</div>
+
+	<div class="drawer-actions">
+		<ng-container *ngTemplateOutlet="actionsTemplate() || defaultDrawerActions"></ng-container>
+		<ng-template #defaultDrawerActions>
+			<div class="actions-wrapper">
+				@if (data.showCloseButton) {
+					<button mat-stroked-button [disabled]="isDismissDisabled()" (click)="onClose()">
+						{{ data.closeButtonLabel }}
+					</button>
+				}
+				@if (data.showSaveButton) {
+					<button mat-flat-button color="primary" [disabled]="isSaveDisabled()" (click)="onSave()">
+						{{ data.saveButtonLabel }}
+					</button>
+				}
+			</div>
+		</ng-template>
+	</div>
+</div>

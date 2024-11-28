@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+.mat-mdc-card.advisory-shield-card-wrapper {
+	width: 100%;
+	border-radius: 16px;
+	padding: 12px;
+
+	@include mat.elevation(1);
+}

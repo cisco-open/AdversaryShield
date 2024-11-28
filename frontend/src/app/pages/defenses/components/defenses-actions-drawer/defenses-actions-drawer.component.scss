@@ -1,0 +1,6 @@
+.defenses-grid-wrapper {
+	display: grid;
+	column-gap: 10px;
+	row-gap: 20px;
+	grid-template-columns: repeat(2, 1fr);
+}

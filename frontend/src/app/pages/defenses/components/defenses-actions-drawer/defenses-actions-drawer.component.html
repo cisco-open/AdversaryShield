@@ -1,0 +1,24 @@
+<drawer [isSaveDisabled]="form.invalid">
+	<form [formGroup]="form">
+		<div class="defenses-grid-wrapper">
+			<mat-form-field>
+				<mat-label>Name</mat-label>
+				<input matInput formControlName="name" formErrorDisplay />
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>URL</mat-label>
+				<input matInput formControlName="url" formErrorDisplay />
+			</mat-form-field>
+		</div>
+
+		<as-defenses-parameters-form-array #panelParameters controlKey="parameters"></as-defenses-parameters-form-array>
+	</form>
+
+	<div class="w-full">
+		<button mat-stroked-button class="w-full" (click)="panelParameters.addParameter()">
+			<mat-icon class="mat-success">add</mat-icon>
+			Add parameter
+		</button>
+	</div>
+</drawer>

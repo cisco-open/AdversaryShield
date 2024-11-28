@@ -1,0 +1,16 @@
+{
+	"name": "local-production-server",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node server.js"
+	},
+	"author": "Pop Ioan (John)",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"compression": "^1.7.5",
+		"express": "^4.21.1"
+	}
+}

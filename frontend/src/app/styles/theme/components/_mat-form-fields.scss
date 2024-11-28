@@ -1,0 +1,10 @@
+@use '@angular/material' as mat;
+
+:root {
+	@include mat.form-field-overrides(
+		(
+			outlined-label-text-size: 0.875rem,
+			outlined-label-text-populated-size: 1rem
+		)
+	);
+}

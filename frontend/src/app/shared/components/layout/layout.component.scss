@@ -1,0 +1,22 @@
+mat-sidenav-container {
+	height: 100%;
+}
+
+mat-sidenav {
+	width: 240px;
+}
+
+as-footer {
+	height: 60px;
+	position: absolute;
+	width: 97%;
+	bottom: 10px;
+}
+
+.body-wrapper {
+	padding: 30px;
+}
+
+.mat-drawer-side {
+	box-shadow: 2px 0 4px -1px rgba(0, 0, 0, 0.1);
+}

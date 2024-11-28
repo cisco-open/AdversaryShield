@@ -1,0 +1,51 @@
+<mat-toolbar class="header flex justify-between">
+	<div>
+		<button mat-icon-button class="notification-button">
+			<div matBadge="4" matBadgeOverlap="false">
+				<mat-icon class="mat-icon size-28">notifications_none</mat-icon>
+			</div>
+		</button>
+	</div>
+
+	<div class="ml-auto">
+		<button
+			mat-button
+			class="flex items-center px-4 py-2 relative overflow-hidden"
+			style="height: 48px"
+			[matMenuTriggerFor]="menu">
+			<div class="flex items-center">
+				<img src="assets/person.png" class="user-image mr-2" />
+				<mat-icon>expand_more</mat-icon>
+			</div>
+		</button>
+		<mat-menu #menu="matMenu">
+			<div class="pt-2 pr-2 pl-2 pb-2">
+				<button mat-menu-item class="text-base">
+					<mat-icon class="mr-2">edit</mat-icon>
+					Edit Profile
+				</button>
+				<button mat-menu-item class="text-base">
+					<mat-icon class="mr-2">account_circle</mat-icon>
+					Account
+				</button>
+				<button mat-menu-item class="text-base">
+					<mat-icon class="mr-2">lock</mat-icon>
+					Change Password
+				</button>
+				<button mat-menu-item class="text-base">
+					<mat-icon class="mr-2">settings</mat-icon>
+					My Settings
+				</button>
+
+				<div class="mt-2 mb-2">
+					<mat-divider></mat-divider>
+				</div>
+
+				<button mat-menu-item>
+					<mat-icon class="mr-2">logout</mat-icon>
+					Logout
+				</button>
+			</div>
+		</mat-menu>
+	</div>
+</mat-toolbar>

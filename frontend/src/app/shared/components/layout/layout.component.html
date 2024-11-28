@@ -1,0 +1,18 @@
+<mat-sidenav-container autosize>
+	<mat-sidenav opened fixedInViewport mode="side">
+		<sidenav></sidenav>
+	</mat-sidenav>
+
+	<mat-sidenav-content role="main">
+		<div class="mt-2">
+			<header></header>
+		</div>
+
+		<div class="body-wrapper">
+			<div class="page-wrapper">
+				<router-outlet></router-outlet>
+				<as-footer></as-footer>
+			</div>
+		</div>
+	</mat-sidenav-content>
+</mat-sidenav-container>

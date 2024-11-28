@@ -1,0 +1,43 @@
+.sidenav {
+	&-wrapper {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.shield-image {
+		width: 80px;
+	}
+
+	&-item {
+		display: flex;
+		align-items: center;
+		margin-bottom: 2px;
+	}
+
+	.sidebar-menu {
+		display: flex;
+		align-items: center;
+		padding: 13px 16px;
+		border-radius: 25px;
+		font-size: 14px;
+
+		&.activelink {
+			background-color: var(--accent-400);
+			color: var(--foregrounds-50);
+		}
+	}
+}
+
+.logo-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.logo-text {
+	font-size: 22px;
+	margin-top: 10px;
+	color: var(--foregrounds-900);
+}

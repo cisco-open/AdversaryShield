@@ -1,0 +1,24 @@
+.mat-column-id {
+	width: 4%;
+}
+
+.mat-column-name {
+	max-width: 30%;
+}
+
+.mat-column-repoUrl {
+	max-width: 55%;
+}
+
+.mat-column-actions {
+	width: 11%;
+}
+
+.defense-wrapper {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+	background-color: var(--backgrounds-80);
+}

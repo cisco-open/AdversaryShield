@@ -1,0 +1,13 @@
+@use '@angular/material' as mat;
+
+span.mdc-list-item__primary-text {
+	font-size: 0.875rem !important;
+}
+
+:root {
+	@include mat.select-overrides(
+		(
+			trigger-text-size: 0.875rem
+		)
+	);
+}

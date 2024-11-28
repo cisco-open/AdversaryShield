@@ -1,0 +1,76 @@
+$icons-primary: var(--primary-800);
+$icons-accent: var(--accent-400);
+$icons-complementary: var(--complementary-800);
+$icons-gray: var(--foregrounds-600);
+$icons-success: var(--success-500);
+$icons-warn: var(--warning-500);
+$icons-error: var(--error-500);
+$icons-white: var(--backgrounds-50);
+
+@mixin icon-size($size) {
+	font-size: $size;
+	width: $size;
+	height: $size;
+}
+
+.mat-icon {
+	&.size-18 {
+		@include icon-size(1.125rem); // 18px
+	}
+
+	&.size-20 {
+		@include icon-size(1.25rem); // 20px
+	}
+
+	&.size-24 {
+		@include icon-size(1.5rem); // 24 px
+	}
+
+	&.size-28 {
+		@include icon-size(1.75rem); // 28 px
+	}
+
+	&.size-32 {
+		@include icon-size(2rem); // 32 px
+	}
+
+	&.size-48 {
+		@include icon-size(3rem); // 48 px
+	}
+}
+
+mat-icon {
+	font-size: 1.5rem;
+
+	&.mat-primary {
+		color: $icons-primary !important;
+	}
+
+	&.mat-complementary {
+		color: $icons-complementary !important;
+	}
+
+	&.mat-gray {
+		color: $icons-gray !important;
+	}
+
+	&.mat-white {
+		color: $icons-white !important;
+	}
+
+	&.mat-accent {
+		color: $icons-accent !important;
+	}
+
+	&.mat-success {
+		color: $icons-success !important;
+	}
+
+	&.mat-warn {
+		color: $icons-warn !important;
+	}
+
+	&.mat-error {
+		color: $icons-error !important;
+	}
+}

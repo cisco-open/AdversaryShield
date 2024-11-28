@@ -1,60 +1,27 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
-	"compilerOptions": {
-		"sourceMap": true,
-		"outDir": "./dist/",
-		"noImplicitAny": true,
-		"module": "esnext",
-		"target": "es5",
-		"jsx": "react-jsx",
-		"allowJs": true,
-		"strict": true,
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-		"lib": [
-			"dom",
-			"dom.iterable",
-			"esnext"
-		],
-		"allowSyntheticDefaultImports": true,
-		"noFallthroughCasesInSwitch": true,
-		"moduleResolution": "node",
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"noEmit": true,
-		"baseUrl": "./src",
-		"downlevelIteration": true,
-		"plugins": [
-			{
-				"name": "typescript-plugin-css-modules"
-			}
-		],
-		"types": [
-			"node",
-			"jest"
-		],
-	},
-	"exclude": [
-		"node_modules"
-	],
-	"include": [
-		"./src",
-		"./src/**/*.ts",
-		"src/**/*.tsx",
-		"src/**/*.d.ts",
-		"./babel.config.js",
-		"./jest.config.ts",
-		"./.eslintrc.js",
-		"./__mocks__",
-		"./conf/default.conf",
-		"./public",
-		"./tests",
-		"./playwright.config.ts",
-		"./commitlint.config.ts",
-		"./webpack.config.js",
-		"./webpack.config.prod.js",
-		"./jest.setup.ts",
-		"./tests/**.ts",
-		"./**/*.d.ts"
-	]
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
 }
