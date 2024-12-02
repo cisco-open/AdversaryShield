@@ -3,8 +3,8 @@ import { DrawerActionTypeEnum } from '../enums/drawer-action-type.enum';
 import { DrawerStatus } from '../enums/drawer-status.enum';
 import { DrawerCSSSize } from '../types/drawer-css-size.type';
 
-export interface DrawerConfig extends OverlayConfig {
-	data?: any;
+export interface DrawerConfig<T = unknown> extends OverlayConfig {
+	data?: T;
 	title?: string;
 	showSaveButton?: boolean;
 	showCloseButton?: boolean;
@@ -16,7 +16,7 @@ export interface DrawerConfig extends OverlayConfig {
 	actionType?: DrawerActionTypeEnum;
 }
 
-export interface DrawerClose<T> {
+export interface DrawerClose<T = unknown> {
 	result?: T;
 	status: DrawerStatus;
 }

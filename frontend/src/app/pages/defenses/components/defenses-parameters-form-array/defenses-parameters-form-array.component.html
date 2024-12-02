@@ -2,9 +2,9 @@
 	@for (param of controlKeyFormArray.controls; track param; let i = $index) {
 		<div class="parameter-wrapper" [formGroupName]="i">
 			<div class="parameter-title-wrapper mb-6">
-				<div class="parameter-title paragraph-semibold-p3-default-emphasis">Parameter {{ i }}</div>
+				<div class="parameter-title paragraph-semibold-p3-default-emphasis">Parameter {{ i + 1 }}</div>
 				<div class="parameter-remove">
-					<button mat-icon-button (click)="removeParameter(i)">
+					<button mat-icon-button [disabled]="parentFormGroup.disabled" (click)="removeParameter(i)">
 						<mat-icon class="mat-error">remove_circle_outline</mat-icon>
 					</button>
 				</div>
@@ -14,7 +14,7 @@
 				<div class="parameter-type">
 					<mat-form-field>
 						<mat-label>Type</mat-label>
-						<mat-select formControlName="type" formErrorDisplay>
+						<mat-select formControlName="parameterType" formErrorDisplay>
 							<mat-option value="string">String</mat-option>
 							<mat-option value="integer">Integer</mat-option>
 						</mat-select>
@@ -24,7 +24,7 @@
 				<div class="parameter-key">
 					<mat-form-field>
 						<mat-label>Key</mat-label>
-						<input matInput formControlName="key" formErrorDisplay />
+						<input matInput formControlName="parameterKey" formErrorDisplay />
 					</mat-form-field>
 				</div>
 

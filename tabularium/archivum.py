@@ -19,7 +19,7 @@ from typing import Union
 from flaskext.mysql import MySQL
 
 
-class MySQLManager():
+class Archivum():
     """
     Manages queries based on inputs and formats return data.
 

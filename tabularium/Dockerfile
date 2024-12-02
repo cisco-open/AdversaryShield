@@ -27,8 +27,6 @@ RUN apt-get -y install \
 RUN mkdir /app
 WORKDIR /app
 ADD /tabularium/ /app/
-ADD /frontend/ /app/frontend
-RUN mkdir /app/tmp
 
 ENV PYTHONUNBUFFERED=1
 

@@ -15,4 +15,4 @@
 # SPDX-License-Identifier: Apache-2.0
 
 eval $(minikube docker-env)
-docker build -t "adversaryshield/tabularium" -f "$(dirname $0)/Dockerfile" .
+docker build -t "anmanea228/tabularium" -f "$(dirname $0)/Dockerfile" .

@@ -14,14 +14,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from mysqlmgr import MySQLManager
+from archivum import Archivum
 from galeadispatcher import GaleaDispacher
 from marathon import Marathon
 
 
 class Tabularium():
     def __init__(self, app):
-        self.mysqlmgr = MySQLManager(app=app)
+        self.mysqlmgr = Archivum(app=app)
         self.defenses = self.read_defenses()
         self.galea_dispatcher = GaleaDispacher()
         self.releases = self.galea_dispatcher.dispatch_read_all()

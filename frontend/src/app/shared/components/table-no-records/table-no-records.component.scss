@@ -1,0 +1,26 @@
+.table-no-records {
+	height: 300px;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	.bullet {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		mat-icon {
+			font-size: 2.5rem;
+			width: 2.5rem;
+			height: 2.5rem;
+		}
+	}
+
+	.no-records {
+		margin-top: 15px;
+		font-size: 1.25rem;
+		color: var(--primary-600);
+	}
+}

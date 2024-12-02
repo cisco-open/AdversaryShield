@@ -14,5 +14,5 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-kubectl delete -f "$(dirname $0)/deploy.yaml"
-kubectl apply -f "$(dirname $0)/deploy.yaml"
+kubectl delete -f "$(dirname $0)/deploy_dev.yaml"
+kubectl apply -f "$(dirname $0)/deploy_dev.yaml"

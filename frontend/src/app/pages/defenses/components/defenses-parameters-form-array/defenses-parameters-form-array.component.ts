@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormErrorDisplayDirective } from '../../../../shared/directives/form-error-display/form-error-display.directive';
+import { Parameter } from '../../../../state/defenses/models/parameter.interface';
 
 @Component({
 	selector: 'as-defenses-parameters-form-array',
@@ -58,18 +59,17 @@ export class DefensesParametersFormArrayComponent {
 		this.parentFormGroup.addControl(this.controlKey(), new FormArray([]));
 	}
 
-	addParameter() {
-		this.controlKeyFormArray.push(this.newParameterFormGroup());
-		console.log(this.parentFormGroup.getRawValue());
+	addParameter(value?: Parameter) {
+		this.controlKeyFormArray.push(this.newParameterFormGroup(value));
 	}
 
-	newParameterFormGroup(): FormGroup {
+	newParameterFormGroup(value?: Parameter): FormGroup {
 		return this.fb.group({
-			type: ['', Validators.required],
-			key: ['', Validators.required],
-			isMandatory: [false, Validators.required],
-			isReadOnly: [false, Validators.required],
-			defaultValue: ['']
+			parameterType: [value?.parameterType || '', Validators.required],
+			parameterKey: [value?.parameterKey || '', Validators.required],
+			isMandatory: [value?.isMandatory ?? false, Validators.required],
+			isReadOnly: [value?.isReadOnly ?? false, Validators.required],
+			defaultValue: [value?.defaultValue || '']
 		});
 	}
 

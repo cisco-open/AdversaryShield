@@ -49,8 +49,8 @@
 								},
 								{
 									"type": "anyComponentStyle",
-									"maximumWarning": "4kB",
-									"maximumError": "8kB"
+									"maximumWarning": "1MB",
+									"maximumError": "1MB"
 								}
 							],
 							"outputHashing": "all"
@@ -91,13 +91,7 @@
 								"input": "public"
 							}
 						],
-						"styles": [
-							"src/styles.scss",
-							{
-								"input": "src/app/styles/theme/theme.scss",
-								"bundleName": "theme"
-							}
-						],
+						"styles": ["src/styles.scss"],
 						"scripts": []
 					}
 				}

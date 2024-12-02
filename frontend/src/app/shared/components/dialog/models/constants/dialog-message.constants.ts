@@ -1,0 +1,2 @@
+export const DIALOG_MESSAGE_DEFAULT_WIDTH = '40vw';
+export const DIALOG_MESSAGE_DEFAULT_HEIGHT = '55vh';

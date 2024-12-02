@@ -1,0 +1,23 @@
+<as-dialog (actionEvent)="save($event)">
+	<div class="message-wrapper">
+		<div class="icon-for-message-wrapper">
+			@switch (data.type) {
+				@case (DialogMessageTypeEnum.SUCCESS) {
+					<mat-icon class="mat-success size-128">check_circle_outline</mat-icon>
+				}
+				@case (DialogMessageTypeEnum.WARNING) {
+					<mat-icon class="mat-warn size-128">warning_amber</mat-icon>
+				}
+				@case (DialogMessageTypeEnum.INFO) {
+					<mat-icon class="mat-primary size-128">info_outline</mat-icon>
+				}
+				@case (DialogMessageTypeEnum.ERROR) {
+					<mat-icon class="mat-error size-128">error_outline</mat-icon>
+				}
+			}
+		</div>
+		<div class="heading-section-title">
+			{{ data.message }}
+		</div>
+	</div>
+</as-dialog>

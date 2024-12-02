@@ -1,0 +1,48 @@
+<div class="dialog-wrapper" [ngStyle]="data.width | dialogSizeStyles: data.height">
+	@if (data.showHeader) {
+		<div class="dialog-header">
+			<ng-container *ngTemplateOutlet="headerTemplate() || defaultDialogHeader"></ng-container>
+			<ng-template #defaultDialogHeader>
+				<div class="dialog-header-wrapper">
+					<div class="heading-section-title">{{ data.title }}</div>
+					<div class="close-icon">
+						<button mat-icon-button (click)="onDismiss()">
+							<mat-icon fontSet="ms" fontIcon="icon-X" class="mat-error"></mat-icon>
+						</button>
+					</div>
+				</div>
+			</ng-template>
+		</div>
+	}
+
+	<div class="dialog-content">
+		<ng-content></ng-content>
+	</div>
+
+	@if (data.showFooter) {
+		<div class="dialog-actions">
+			<ng-container *ngTemplateOutlet="actionsTemplate() || defaultDialogActions"></ng-container>
+			<ng-template #defaultDialogActions>
+				<div
+					class="actions-wrapper"
+					[ngClass]="{
+						'align-left': data.buttonPosition === 'left',
+						'align-right': data.buttonPosition === 'right' || isSingleButton(),
+						'align-center': data.buttonPosition === 'center',
+						'align-spread': data.buttonPosition === 'spread' && !isSingleButton()
+					}">
+					@if (data.showCloseButton) {
+						<button mat-stroked-button [disabled]="isDismissDisabled()" (click)="onClose()">
+							{{ data.closeButtonLabel }}
+						</button>
+					}
+					@if (data.showSaveButton) {
+						<button mat-flat-button color="primary" [disabled]="isSaveDisabled()" (click)="onSave()">
+							{{ data.saveButtonLabel }}
+						</button>
+					}
+				</div>
+			</ng-template>
+		</div>
+	}
+</div>

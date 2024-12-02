@@ -17,5 +17,9 @@ export const routes: Routes = [
 				loadComponent: () => import('./pages/defenses/defenses.component').then((mod) => mod.DefensesComponent)
 			}
 		]
+	},
+	{
+		path: '**',
+		redirectTo: RoutesList.HOME.ROOT
 	}
 ];

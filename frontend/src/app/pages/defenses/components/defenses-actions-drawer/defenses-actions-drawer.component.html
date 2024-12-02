@@ -1,4 +1,4 @@
-<drawer [isSaveDisabled]="form.invalid">
+<drawer [isSaveDisabled]="form.invalid" (actionEvent)="save($event)">
 	<form [formGroup]="form">
 		<div class="defenses-grid-wrapper">
 			<mat-form-field>
@@ -8,7 +8,7 @@
 
 			<mat-form-field>
 				<mat-label>URL</mat-label>
-				<input matInput formControlName="url" formErrorDisplay />
+				<input matInput formControlName="repoUrl" formErrorDisplay />
 			</mat-form-field>
 		</div>
 
@@ -16,7 +16,7 @@
 	</form>
 
 	<div class="w-full">
-		<button mat-stroked-button class="w-full" (click)="panelParameters.addParameter()">
+		<button mat-stroked-button class="w-full" (click)="panelParameters.addParameter()" [disabled]="form.disabled">
 			<mat-icon class="mat-success">add</mat-icon>
 			Add parameter
 		</button>
