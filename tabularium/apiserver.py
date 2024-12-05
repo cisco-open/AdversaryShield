@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
-from flask import Flask, request, Response, send_from_directory
+from flask import Flask, request, Response
 from tabularium import Tabularium
 
-app = Flask(__name__, static_folder="frontend/build/browser", static_url_path='')
+app = Flask(__name__)
 tabularium = Tabularium(app=app)
 
 
@@ -37,6 +37,32 @@ def create_defense() -> Response:
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
 
 
+@app.route("/api/targetmodels", methods=["POST"])
+def create_targetmodel() -> Response:
+    """
+    Creates target model entry based on provided JSON.
+    """
+    try:
+        tabularium.create_targetmodel(model_dict=request.json)
+        
+        return Response(status=201)
+    except Exception as e:
+        print("Exception:", e, str(e))
+        return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
+
+@app.route("/api/releases", methods=["POST"])
+def create_release() -> Response:
+    """
+    Creates release based on provided JSON.
+    """
+    try:
+        tabularium.create_release(defense_dict=request.json)
+        
+        return Response(status=201)
+    except Exception as e:
+        print("Exception:", e, str(e))
+        return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
+    
 # READ
 @app.route("/api/defenses", methods=["GET"])
 def read_defenses() -> Response:
@@ -50,7 +76,7 @@ def read_defenses() -> Response:
     except Exception as e:
         print("Exception:", e, str(e))
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
-    
+
 
 @app.route("/api/defenses/<int:defense_id>", methods=["GET"])
 def read_defense(defense_id: int) -> Response:
@@ -64,7 +90,35 @@ def read_defense(defense_id: int) -> Response:
     except Exception as e:
         print("Exception:", e, str(e))
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
-    
+
+
+@app.route("/api/targetmodels", methods=["GET"])
+def read_targetmodels() -> Response:
+    """
+    Reads targe models.
+    """
+    try:
+        models_dict = tabularium.read_targetmodels()
+
+        return Response(response=json.dumps(models_dict), status=200)
+    except Exception as e:
+        print("Exception:", e, str(e))
+        return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
+
+
+@app.route("/api/targetmodels/<int:model_id>", methods=["GET"])
+def read_targetmodel(model_id: int) -> Response:
+    """
+    Reads model from 'languagemodels' table.
+    """
+    try:
+        model_dict = tabularium.read_targetmodel(model_id=model_id)
+
+        return Response(response=json.dumps(model_dict), status=200)
+    except Exception as e:
+        print("Exception:", e, str(e))
+        return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
+
 
 @app.route("/api/releases", methods=["GET"])
 def read_releases() -> Response:
@@ -72,7 +126,21 @@ def read_releases() -> Response:
     Reads releases.
     """
     try:
-        releases_dict = tabularium.get_releases()
+        releases_dict = tabularium.read_releases()
+
+        return Response(response=json.dumps(releases_dict), status=200)
+    except Exception as e:
+        print("Exception:", e, str(e))
+        return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
+
+
+@app.route("/api/releases/<string:release_name>", methods=["GET"])
+def read_release(release_name: str) -> Response:
+    """
+    Reads release by name.
+    """
+    try:
+        releases_dict = tabularium.read_release(release_name=release_name)
 
         return Response(response=json.dumps(releases_dict), status=200)
     except Exception as e:
@@ -96,6 +164,21 @@ def update_defense(defense_id: int) -> Response:
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
 
 
+@app.route("/api/targetmodels/<int:model_id>", methods=["PUT"])
+def update_targetmodel(model_id: int) -> Response:
+    # ToDo: Align with new route and logic
+    """
+    Updates target model based on provided JSON.
+    """
+    try:
+        tabularium.update_targetmodel(model_dict=request.json)
+
+        return Response(status=200)
+    except Exception as e:
+        print("Exception:", e, str(e))
+        return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
+
+
 # DELETE
 @app.route("/api/defenses/<int:defense_id>", methods=["DELETE"])
 def delete_defense(defense_id: int) -> Response:
@@ -111,6 +194,32 @@ def delete_defense(defense_id: int) -> Response:
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
 
 
+@app.route("/api/targetmodels/<int:model_id>", methods=["DELETE"])
+def delete_targetmodel(model_id: int) -> Response:
+    """
+    Deletes defense and parameters from database.
+    """
+    try:
+        tabularium.delete_targetmodel(model_id=model_id)
+
+        return Response(status=204)
+    except Exception as e:
+        print("Exception:", e, str(e))
+        return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
+
+
+@app.route("/api/releases/<string:release_name>", methods=["DELETE"])
+def delete_release(release_name: str) -> Response:
+    """
+    Deletes release.
+    """
+    try:
+        tabularium.delete_release(release_name=release_name)
+
+        return Response(status=204)
+    except Exception as e:
+        print("Exception:", e, str(e))
+        return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
 # RUN
 @app.route("/api/run", methods=["POST"])
 def run():
@@ -139,7 +248,7 @@ def get_defenses() -> Response:
     except Exception as e:
         print("Exception:", e, str(e))
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
-    
+
 
 @app.route("/api/test/releases", methods=["GET"])
 def get_releases() -> Response:
@@ -153,16 +262,6 @@ def get_releases() -> Response:
     except Exception as e:
         print("Exception:", e, str(e))
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
-
-
-# INDEX
-@app.route('/', defaults={'path': ''})
-@app.route("/<path>")
-def index(path):
-    """
-    Main route launching the React Frontend App.
-    """
-    return send_from_directory(app.static_folder, 'index.html')
 
 
 if __name__ == "__main__":

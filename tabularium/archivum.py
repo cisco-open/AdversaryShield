@@ -274,6 +274,30 @@ class Archivum():
 
         return model_tuple
 
+    def read_model_by_name(self, model: str) -> tuple:
+        """
+        Returns query response for entry within 'languagemodels' table based on provided defense name.
+        Usually used to get the id after creation.
+
+        Returns:
+            model (tuple): Tuple containing the query response as 
+                                ((id, model, url),)
+        """
+        connector = self.mysql.connect()
+        cursor = connector.cursor()
+
+        query = "SELECT * FROM defenses " \
+                "WHERE model=%s"
+        args = (model)
+
+        cursor.execute(query=query, args=args)
+        defense = cursor.fetchall()
+
+        cursor.close()
+        connector.close()
+
+        return defense
+
     # UPDATE
     def update_defense(self, id: int, name: str, repo_url: str, version: str):
         """

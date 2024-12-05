@@ -85,6 +85,28 @@ class Tabularium():
         self.refresh_defenses()
         self.refresh_releases()
 
+    def create_targetmodel(self, model_dict: dict) -> None:
+        """
+        Creates defense entry into 'languagemodels' table.
+
+        Arguments:
+            model_dict (dict): defense dictionary containing model details
+        """
+
+        self.mysqlmgr.create_model(model=model_dict["targetmodel"]["model"], url=model_dict["targetmodel"]["url"])
+
+    def create_release(self, defense_dict: dict) -> None:
+        """
+        Installs defense Helm release.
+
+        Arguments:
+            defense_dict (dict): defense dictionary containing defense details and its parameters
+        """
+        self.galea_dispatcher.dispatch_install(release_name=defense_dict["defense"]["name"],
+                                               repo_url=defense_dict["defense"]["repo_url"],
+                                               version=defense_dict["defense"]["version"])
+        
+        self.refresh_releases()
     # READ
     def read_defenses(self) -> dict:
         """
@@ -187,6 +209,68 @@ class Tabularium():
 
         return defense_dict
     
+    def read_targetmodels(self) -> dict:
+        """
+        Returns queried models as a dictionary.
+        """
+        # Prepare targetmodels dict
+        targetmodels_dict =  {
+                            "targetmodels": []
+                        }
+        
+        # Read targetmodels tuple(tuple)
+        targetmodels_tuple = self.mysqlmgr.read_models()
+        
+        # Assemble targetmodel dicts from tuple(tuple)
+        for targetmodel_tuple in targetmodels_tuple:
+            # Assemble targetmodel dict from tuple
+            targetmodel_dict =  {
+                                    "targetmodel":
+                                        {
+                                            "id": targetmodel_tuple[0], 
+                                            "model": targetmodel_tuple[1], 
+                                            "url": targetmodel_tuple[2]
+                                        }
+                                }
+            
+            targetmodels_dict["targetmodels"].append(targetmodel_dict)
+        
+        return targetmodels_dict
+
+    def read_targetmodel(self, model_id: int) -> dict:
+        """
+        Returns queried targetmodel as a dictionary.
+        """
+        targetmodel_dict =  {
+                                "targetmodel": {}
+                            }
+        
+        targetmodel_tuple = self.mysqlmgr.read_model_by_id(id=model_id)
+
+        targetmodel_dict["targetmodel"].update(
+                                                {
+                                                    "id": targetmodel_tuple[0][0],
+                                                    "model": targetmodel_tuple[0][1],
+                                                    "url": targetmodel_tuple[0][2]
+                                                }
+                                            )
+        
+        return targetmodel_dict
+
+    def read_releases(self) -> dict:
+        """
+        Returns releases.
+        """
+        self.refresh_releases()
+        return self.get_releases()
+
+    def read_release(self, release_name: str) -> dict:
+        """
+        Return release by name.
+        """
+        self.refresh_releases()
+        return self.get_release(release_name=release_name)
+    
     # UPDATE
     def update_defense(self, defense_dict: dict) -> None:
         """
@@ -226,6 +310,13 @@ class Tabularium():
         self.refresh_defenses()
         self.refresh_releases()
 
+    def update_targetmodel(self, model_dict: dict) -> None:
+        """
+        Updates model record.
+        """
+        self.mysqlmgr.update_model(id=model_dict["targetmodel"]["id"],
+                                   model=model_dict["targetmodel"]["model"], url=model_dict["targetmodel"]["url"])
+
     # DELETE
     def delete_defense_and_parameters(self, defense_id: int) -> None:
         """
@@ -240,6 +331,18 @@ class Tabularium():
 
         self.refresh_defenses()
         self.refresh_releases()
+
+    def delete_targetmodel(self, model_id: int) -> None:
+        """
+        Deletes model entry.
+        """
+        self.mysqlmgr.delete_model(id=model_id)
+
+    def delete_release(self, release_name: str) -> None:
+        """
+        Deletes release.
+        """
+        self.galea_dispatcher.dispatch_delete(release_name=release_name)
 
     # RUN
     def run(self, defense_run_dict: dict) -> dict:
