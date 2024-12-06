@@ -3,10 +3,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { take } from 'rxjs';
+import { Defense } from '../../services/client/models/defenses/defense.interface';
 import { DrawerClose, DrawerService, DrawerStatus } from '../../shared/components/drawer';
 import { DrawerActionTypeEnum } from '../../shared/components/drawer/models/enums/drawer-action-type.enum';
 import { DefensesStore } from '../../state/defenses/defenses.store';
-import { Defense } from '../../state/defenses/models/defense.interface';
 import { DefensesActionsDrawerComponent } from './components/defenses-actions-drawer/defenses-actions-drawer.component';
 import { DefensesTableComponent } from './components/defenses-table/defenses-table.component';
 

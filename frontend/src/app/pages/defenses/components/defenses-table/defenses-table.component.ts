@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, inject, OnInit, Signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, linkedSignal, OnInit, Signal, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,6 +6,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { take } from 'rxjs';
+import { Defense } from '../../../../services/client/models/defenses/defense.interface';
 import { DialogClose, DialogStatus } from '../../../../shared/components/dialog';
 import { DialogMessageService } from '../../../../shared/components/dialog/features/dialog-message/services/dialog-message.service';
 import { DrawerClose, DrawerService, DrawerStatus } from '../../../../shared/components/drawer';
@@ -13,7 +14,6 @@ import { DrawerActionTypeEnum } from '../../../../shared/components/drawer/model
 import { TableNoRecordsComponent } from '../../../../shared/components/table-no-records/table-no-records.component';
 import { isNil } from '../../../../shared/shared.utils';
 import { DefensesStore } from '../../../../state/defenses/defenses.store';
-import { Defense } from '../../../../state/defenses/models/defense.interface';
 import { DefensesActionsDrawerComponent } from '../defenses-actions-drawer/defenses-actions-drawer.component';
 
 @Component({
@@ -36,37 +36,41 @@ export class DefensesTableComponent implements OnInit, AfterViewInit {
 	readonly drawerService = inject(DrawerService);
 	readonly dialogMessageService = inject(DialogMessageService);
 
+	isLoading: Signal<boolean> = this.defensesStore.isLoading;
 	defenses: Signal<Defense[]> = this.defensesStore.defenses;
 
-	displayedColumns: string[] = ['id', 'name', 'repoUrl', 'actions'];
+	dataSource = linkedSignal<Defense[], MatTableDataSource<Defense>>({
+		source: this.defenses,
+		computation: (newDefenses, previous) => {
+			console.log(this.defenses());
 
-	dataSource = computed(() => {
-		const defenses = this.defenses();
-
-		return new MatTableDataSource(
-			defenses.map((defense) => ({
+			const dataSource = previous?.value ?? new MatTableDataSource<Defense>();
+			const transformedData = newDefenses.map((defense) => ({
 				id: defense.id,
 				name: defense.name,
 				repoUrl: defense.repoUrl
-			}))
-		);
+			}));
+			dataSource.data = transformedData;
+			return dataSource;
+		}
 	});
 
-	@ViewChild(MatPaginator) paginator!: MatPaginator;
+	readonly paginator = viewChild.required(MatPaginator);
+	displayedColumns: string[] = ['id', 'name', 'repoUrl', 'actions'];
 
 	ngOnInit() {
 		this.defensesStore.loadAll();
 	}
 
 	ngAfterViewInit() {
-		this.dataSource().paginator = this.paginator;
+		this.dataSource().paginator = this.paginator();
 	}
 
 	viewDefense(id: number) {
 		this.drawerService.open(DefensesActionsDrawerComponent, {
 			title: 'View defense',
 			data: {
-				...this.defenses().find((defense) => defense.id === id)
+				...this.defenses().find((defense) => parseInt(defense.id ?? '', 10) === id)
 			} as Defense,
 			saveButtonLabel: 'View',
 			showCloseButton: true,
@@ -77,7 +81,7 @@ export class DefensesTableComponent implements OnInit, AfterViewInit {
 	}
 
 	editDefense(id: number) {
-		const origDefense = this.defenses().find((defense) => defense.id === id);
+		const origDefense = this.defenses().find((defense) => parseInt(defense.id ?? '', 10) === id);
 
 		const drawerRef = this.drawerService.open(DefensesActionsDrawerComponent, {
 			title: 'Edit defense',
@@ -112,9 +116,14 @@ export class DefensesTableComponent implements OnInit, AfterViewInit {
 			return;
 		}
 
-		const dialogMessageConfirmation = this.dialogMessageService.openWarningDialog({
-			message: 'Are you sure you want to remove it?'
-		});
+		const dialogMessageConfirmation = this.dialogMessageService.openWarningDialog(
+			{
+				message: 'Are you sure you want to remove it?'
+			},
+			{
+				closeButtonLabel: 'No'
+			}
+		);
 
 		dialogMessageConfirmation
 			.afterClosed()

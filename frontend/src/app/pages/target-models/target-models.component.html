@@ -1,0 +1,18 @@
+<mat-card class="as-card-wrapper" appearance="outlined">
+	<mat-card-header>
+		<mat-card-title>
+			<div class="flex justify-between center-align">
+				<div class="heading-section-title">Target Models</div>
+				<div>
+					<button mat-mini-fab (click)="addTargetModel()" color="success">
+						<mat-icon>add</mat-icon>
+					</button>
+				</div>
+			</div>
+		</mat-card-title>
+	</mat-card-header>
+
+	<mat-card-content>
+		<as-target-models-table></as-target-models-table>
+	</mat-card-content>
+</mat-card>

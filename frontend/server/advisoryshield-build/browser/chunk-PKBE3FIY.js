@@ -1,1 +1,0 @@
-import{Kb as p,bb as t,vb as s,wb as o}from"./chunk-T3STSSWT.js";var a=class n{static \u0275fac=function(e){return new(e||n)};static \u0275cmp=t({type:n,selectors:[["app-defenses"]],decls:2,vars:0,template:function(e,i){e&1&&(s(0,"p"),p(1,"defenses works!"),o())},encapsulation:2})};export{a as DefensesComponent};

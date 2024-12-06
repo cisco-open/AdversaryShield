@@ -4,6 +4,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { SidenavItem } from './models/sidenav.interface';
 
 @Component({
 	selector: 'sidenav',
@@ -14,16 +15,21 @@ import { RouterModule } from '@angular/router';
 export class SidenavComponent {
 	routerActive = 'activelink';
 
-	sidebarMenu: any[] = [
+	sidebarMenu: SidenavItem[] = [
 		{
-			link: '/home',
+			route: '/home',
 			icon: 'home',
 			label: 'Dashboard'
 		},
 		{
-			link: '/defenses',
+			route: '/defenses',
 			icon: 'security',
 			label: 'Defenses'
+		},
+		{
+			route: '/target-models',
+			icon: 'storage',
+			label: 'Target Models'
 		}
 	];
 }

@@ -220,6 +220,8 @@ def delete_release(release_name: str) -> Response:
     except Exception as e:
         print("Exception:", e, str(e))
         return Response(response=json.dumps({"err": e, "strerr": str(e)}), status=400)
+
+
 # RUN
 @app.route("/api/run", methods=["POST"])
 def run():

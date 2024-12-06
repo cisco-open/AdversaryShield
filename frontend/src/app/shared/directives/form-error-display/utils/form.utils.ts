@@ -5,6 +5,7 @@ import { MAX_DATE_VALIDATOR_IDENTIFIER } from '../validators/max-date.validator'
 import { MAX_DECIMALS_VALIDATOR_IDENTIFIER } from '../validators/max-decimals.validator';
 import { MIN_DATE_VALIDATOR_IDENTIFIER } from '../validators/min-date.validator';
 import { ONLY_DIGITS_VALIDATOR_IDENTIFIER } from '../validators/only-digits.validator';
+import { URL_VALIDATOR_IDENTIFIER } from '../validators/url.validator';
 
 export function getValidationErrorMessage(errors: ValidationErrors | null): string | undefined {
 	if (!errors) return;
@@ -21,7 +22,6 @@ export function getValidationErrorMessage(errors: ValidationErrors | null): stri
 		pattern: 'Invalid format',
 		nullValidator: 'Field must not be null',
 		requiredTrue: 'Field must be true (checked)',
-		url: 'Invalid URL format',
 		unique: 'Value must be unique',
 		whitespace: 'Field cannot be empty or contain only whitespace',
 		ip: 'Invalid IP address format',
@@ -31,7 +31,8 @@ export function getValidationErrorMessage(errors: ValidationErrors | null): stri
 		[ONLY_DIGITS_VALIDATOR_IDENTIFIER]: 'Only digits are allowed',
 		[MAX_DECIMALS_VALIDATOR_IDENTIFIER]: (d) => `Maximum ${d.maxDecimals} decimal places allowed`,
 		[COMMA_SEPARATED_VALUES_VALIDATOR_IDENTIFIER]: 'Values must be a comma-separated list of numbers',
-		[INTERVAL_VALIDATOR_IDENTIFIER]: (d) => `Value must be between ${d.min} and ${d.max}.`
+		[INTERVAL_VALIDATOR_IDENTIFIER]: (d) => `Value must be between ${d.min} and ${d.max}.`,
+		[URL_VALIDATOR_IDENTIFIER]: 'Invalid URL format'
 	};
 
 	const message = errorMessages[error];

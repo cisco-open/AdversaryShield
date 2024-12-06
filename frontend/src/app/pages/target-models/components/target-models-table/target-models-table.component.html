@@ -1,0 +1,52 @@
+<div>
+	@if (dataSource().data.length !== 0) {
+		<table mat-table [dataSource]="dataSource()">
+			<ng-container matColumnDef="id">
+				<th mat-header-cell *matHeaderCellDef>#</th>
+				<td mat-cell *matCellDef="let targetModel">{{ targetModel.id }}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="model">
+				<th mat-header-cell *matHeaderCellDef>Model</th>
+				<td mat-cell *matCellDef="let targetModel">{{ targetModel.model }}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="url">
+				<th mat-header-cell *matHeaderCellDef>URL</th>
+				<td mat-cell *matCellDef="let targetModel">{{ targetModel.url }}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="method">
+				<th mat-header-cell *matHeaderCellDef>Method</th>
+				<td mat-cell *matCellDef="let targetModel">{{ targetModel.method }}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="actions">
+				<th mat-header-cell *matHeaderCellDef></th>
+				<td mat-cell *matCellDef="let targetModel">
+					<div class="target-model-wrapper">
+						<button mat-icon-button aria-label="Edit" (click)="editTargetModel(targetModel.id)">
+							<mat-icon class="mat-primary">edit</mat-icon>
+						</button>
+
+						<button mat-icon-button aria-label="Remove" (click)="removeTargetModel(targetModel.id)">
+							<mat-icon class="mat-error">delete</mat-icon>
+						</button>
+					</div>
+				</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+		</table>
+	} @else {
+		<as-table-no-records></as-table-no-records>
+	}
+
+	<mat-paginator
+		[disabled]="dataSource().data.length === 0"
+		[pageSizeOptions]="[5, 10, 20]"
+		showFirstLastButtons
+		aria-label="Select page of periodic defenses">
+	</mat-paginator>
+</div>

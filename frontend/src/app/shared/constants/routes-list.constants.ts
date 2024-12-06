@@ -4,5 +4,8 @@ export const RoutesList = {
 	},
 	DEFENSES: {
 		ROOT: 'defenses'
+	},
+	TARGET_MODELS: {
+		ROOT: 'target-models'
 	}
 };

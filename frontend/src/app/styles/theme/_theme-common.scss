@@ -113,6 +113,7 @@ $typography: mat.m2-define-rem-typography-config(
 	@include mat.paginator-theme($theme);
 	@include mat.tooltip-theme($theme);
 	@include mat.select-theme($theme);
+	@include mat.snack-bar-theme($theme);
 
 	@include mat.form-field-density(-4);
 }

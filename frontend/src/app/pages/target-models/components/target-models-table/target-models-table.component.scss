@@ -1,0 +1,28 @@
+.mat-column-id {
+	width: 4%;
+}
+
+.mat-column-model {
+	max-width: 30%;
+}
+
+.mat-column-url {
+	max-width: 45%;
+}
+
+.mat-column-method {
+	max-width: 10%;
+}
+
+.mat-column-actions {
+	width: 11%;
+}
+
+.target-model-wrapper {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+	background-color: var(--backgrounds-80);
+}

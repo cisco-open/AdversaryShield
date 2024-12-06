@@ -1,5 +1,5 @@
 <div>
-	@if (defensesStore.isLoading() === false && defenses().length !== 0) {
+	@if (defensesStore.isLoading() === false && dataSource().data.length > 0) {
 		<table mat-table [dataSource]="dataSource()">
 			<ng-container matColumnDef="id">
 				<th mat-header-cell *matHeaderCellDef>#</th>
@@ -37,10 +37,14 @@
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 		</table>
-
-		<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic defenses">
-		</mat-paginator>
 	} @else {
 		<as-table-no-records></as-table-no-records>
 	}
+
+	<mat-paginator
+		[disabled]="dataSource().data.length === 0"
+		[pageSizeOptions]="[5, 10, 20]"
+		showFirstLastButtons
+		aria-label="Select page of periodic defenses">
+	</mat-paginator>
 </div>

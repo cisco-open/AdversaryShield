@@ -3,10 +3,11 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { Defense } from '../../../../services/client/models/defenses/defense.interface';
 import { DRAWER_DATA, DrawerComponent, DrawerRef, DrawerStatus } from '../../../../shared/components/drawer';
 import { DrawerActionTypeEnum } from '../../../../shared/components/drawer/models/enums/drawer-action-type.enum';
 import { FormErrorDisplayDirective } from '../../../../shared/directives/form-error-display/form-error-display.directive';
-import { Defense } from '../../../../state/defenses/models/defense.interface';
+import { urlValidator } from '../../../../shared/directives/form-error-display/validators/url.validator';
 import { DefensesParametersFormArrayComponent } from '../defenses-parameters-form-array/defenses-parameters-form-array.component';
 
 @Component({
@@ -38,6 +39,10 @@ export class DefensesActionsDrawerComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
+		this.configureDrawerBasedOnType();
+	}
+
+	configureDrawerBasedOnType() {
 		switch (this.drawerConfig.actionType) {
 			case DrawerActionTypeEnum.EDIT:
 			case DrawerActionTypeEnum.VIEW:
@@ -49,7 +54,7 @@ export class DefensesActionsDrawerComponent implements OnInit, AfterViewInit {
 	initForm() {
 		this.form = this.fb.group({
 			name: [null, Validators.required],
-			repoUrl: [null, Validators.required]
+			repoUrl: [null, [Validators.required, urlValidator()]]
 		});
 	}
 
@@ -61,7 +66,7 @@ export class DefensesActionsDrawerComponent implements OnInit, AfterViewInit {
 			repoUrl: defense.repoUrl
 		});
 
-		defense.parameters.forEach((param) => {
+		defense?.parameters?.forEach((param) => {
 			this.panelParameters()?.addParameter(param);
 		});
 

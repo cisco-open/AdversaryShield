@@ -15,6 +15,11 @@ export const routes: Routes = [
 			{
 				path: RoutesList.DEFENSES.ROOT,
 				loadComponent: () => import('./pages/defenses/defenses.component').then((mod) => mod.DefensesComponent)
+			},
+			{
+				path: RoutesList.TARGET_MODELS.ROOT,
+				loadComponent: () =>
+					import('./pages/target-models/target-models.component').then((mod) => mod.TargetModelsComponent)
 			}
 		]
 	},

@@ -1,7 +1,19 @@
 import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { DefensesService } from './defenses.service';
-import { Defense } from './models/defense.interface';
+import { take } from 'rxjs';
+import {
+	convertDefenseToFrontend,
+	convertDefenseToPostPayload,
+	convertDefenseToPutPayload
+} from '../../services/client/models/defenses/defense-conversion.utils';
+import { DefenseResponseDTO } from '../../services/client/models/defenses/defense-dto.interface';
+import { Defense } from '../../services/client/models/defenses/defense.interface';
+import { DeleteDefensesAPI } from '../../services/client/serviceCalls/defenses/delete-defenses.api';
+import { GetDefensesAPI } from '../../services/client/serviceCalls/defenses/get-defenses.api';
+import { PostDefenseAPI } from '../../services/client/serviceCalls/defenses/post-defense.api';
+import { PutDefensesAPI } from '../../services/client/serviceCalls/defenses/put-defenses.api';
+import { CLIENT } from '../../services/services.tokens';
+import { NotificationService } from '../../shared/components/notification/services/notification.service';
 
 type DefensesState = {
 	defenses: Defense[];
@@ -16,33 +28,48 @@ const initialState: DefensesState = {
 export const DefensesStore = signalStore(
 	{ providedIn: 'root' },
 	withState(initialState),
-	withMethods((store, defensesService = inject(DefensesService)) => ({
-		async loadAll(): Promise<void> {
+	withMethods((store, apiClient = inject(CLIENT), notificationService = inject(NotificationService)) => ({
+		loadAll(): void {
 			patchState(store, { isLoading: true });
-
-			const defenses = await defensesService.getAll();
-
-			patchState(store, { defenses, isLoading: false });
+			apiClient
+				.serviceCall<DefenseResponseDTO>(new GetDefensesAPI())
+				.pipe(take(1))
+				.subscribe((response: DefenseResponseDTO) => {
+					const defenses = convertDefenseToFrontend(response);
+					patchState(store, { defenses, isLoading: false });
+				});
 		},
-		async removeById(id: number): Promise<void> {
-			await defensesService.removeDefenseById(id);
-
+		removeById(id: number): void {
+			apiClient
+				.serviceCall<DefenseResponseDTO>(new DeleteDefensesAPI(`${id}`))
+				.pipe(take(1))
+				.subscribe(() => {
+					notificationService.showSuccess('Defense removed.');
+				});
 			patchState(store, {
-				defenses: store.defenses().filter((defense) => defense.id !== id)
+				defenses: store.defenses().filter((defense) => `${defense.id}` !== `${id}`)
 			});
 		},
-		async add(newDefense: Defense): Promise<void> {
-			const addedDefense = await defensesService.addDefense(newDefense);
-
-			patchState(store, {
-				defenses: [...store.defenses(), addedDefense]
-			});
+		add(newDefense: Defense): void {
+			const newDefenseDTO = convertDefenseToPostPayload(newDefense);
+			apiClient
+				.serviceCall(new PostDefenseAPI(newDefenseDTO))
+				.pipe(take(1))
+				.subscribe((defense: any) => {
+					notificationService.showSuccess('Defense added.');
+				});
 		},
-		async edit(updatedDefense: Defense): Promise<void> {
-			const editedDefense = await defensesService.editDefense(updatedDefense);
+		edit(updatedDefense: Defense): void {
+			const updatedDefenseDto = convertDefenseToPutPayload(updatedDefense);
+			apiClient
+				.serviceCall(new PutDefensesAPI(updatedDefenseDto))
+				.pipe(take(1))
+				.subscribe(() => {
+					notificationService.showSuccess('Defense updated.');
+				});
 
 			const defenses = store.defenses().map((defense) => {
-				return defense.id === editedDefense.id ? editedDefense : defense;
+				return defense.id === updatedDefense.id ? updatedDefense : defense;
 			});
 
 			patchState(store, { defenses });

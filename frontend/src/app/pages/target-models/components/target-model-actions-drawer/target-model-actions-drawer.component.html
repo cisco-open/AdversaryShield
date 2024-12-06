@@ -1,0 +1,26 @@
+<drawer [isSaveDisabled]="form.invalid" (actionEvent)="save($event)">
+	<form [formGroup]="form">
+		<div class="target-model-grid-wrapper">
+			<mat-form-field>
+				<mat-label>Model</mat-label>
+				<input matInput formControlName="model" formErrorDisplay />
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>URL</mat-label>
+				<input matInput formControlName="url" formErrorDisplay />
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>Method</mat-label>
+				<mat-select formControlName="method" formErrorDisplay>
+					@for (method of availableMethods; track method) {
+						<mat-option [value]="method">
+							{{ method }}
+						</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+		</div>
+	</form>
+</drawer>

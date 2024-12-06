@@ -1,0 +1,28 @@
+<div class="notification">
+	<div class="notification-left-container">
+		<div class="notification-content">
+			@switch (data.notificationType) {
+				@case (NotificationTypes.SUCCESS) {
+					<mat-icon class="mat-success">check_circle_outline</mat-icon>
+				}
+				@case (NotificationTypes.WARNING) {
+					<mat-icon class="mat-warn">warning_amber</mat-icon>
+				}
+				@case (NotificationTypes.INFO) {
+					<mat-icon class="mat-primary">info_outline</mat-icon>
+				}
+				@case (NotificationTypes.ERROR) {
+					<mat-icon class="mat-error">error_outline</mat-icon>
+				}
+			}
+		</div>
+	</div>
+
+	<div class="notification-middle-container">
+		<div>{{ data.message }}</div>
+	</div>
+
+	<div class="notification-right-container">
+		<mat-icon class="mat-gray" (click)="notificationRef.dismiss()">clear</mat-icon>
+	</div>
+</div>

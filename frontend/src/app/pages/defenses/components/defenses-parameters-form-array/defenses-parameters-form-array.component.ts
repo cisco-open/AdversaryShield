@@ -15,8 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { Parameter } from '../../../../services/client/models/defenses/defense.interface';
 import { FormErrorDisplayDirective } from '../../../../shared/directives/form-error-display/form-error-display.directive';
-import { Parameter } from '../../../../state/defenses/models/parameter.interface';
 
 @Component({
 	selector: 'as-defenses-parameters-form-array',
