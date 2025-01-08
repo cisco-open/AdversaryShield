@@ -1,0 +1,74 @@
+<mat-card class="as-card-wrapper" appearance="outlined">
+	<mat-card-header class="as-card-header-style">
+		<mat-card-title>
+			<div class="heading-section-title">Releases data</div>
+		</mat-card-title>
+	</mat-card-header>
+
+	<mat-card-content>
+		@if (!releasesStore.isLoading() && dataSource().data.length > 0) {
+			<table mat-table [dataSource]="dataSource()">
+				<ng-container matColumnDef="name">
+					<th mat-header-cell *matHeaderCellDef>Name</th>
+					<td mat-cell *matCellDef="let release">{{ release.name }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="namespace">
+					<th mat-header-cell *matHeaderCellDef>Namespace</th>
+					<td mat-cell *matCellDef="let release">{{ release.namespace }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="revision">
+					<th mat-header-cell *matHeaderCellDef>Revision</th>
+					<td mat-cell *matCellDef="let release">{{ release.revision }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="status">
+					<th mat-header-cell *matHeaderCellDef>Status</th>
+					<td mat-cell *matCellDef="let release">
+						<as-status-display [status]="release.status"></as-status-display>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="actions">
+					<th mat-header-cell *matHeaderCellDef></th>
+					<td mat-cell *matCellDef="let release">
+						<div class="release-actions-wrapper">
+							<button
+								mat-icon-button
+								aria-label="Upgrade"
+								(click)="upgradeRelease(release.name)"
+								matTooltip="Upgrade release">
+								<mat-icon class="mat-primary">arrow_upward</mat-icon>
+							</button>
+
+							<button
+								mat-icon-button
+								aria-label="Remove"
+								(click)="removeRelease(release.name)"
+								matTooltip="Remove release">
+								<mat-icon class="mat-error">delete</mat-icon>
+							</button>
+						</div>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+			</table>
+		} @else if (releasesStore.isLoading()) {
+			<div class="mt-4">
+				<table-skeleton-loader [count]="4"></table-skeleton-loader>
+			</div>
+		} @else {
+			<as-table-no-records message="No releases."></as-table-no-records>
+		}
+
+		<mat-paginator
+			[disabled]="dataSource().data.length === 0"
+			[pageSizeOptions]="[5, 10, 20]"
+			showFirstLastButtons
+			aria-label="Select page of periodic releases">
+		</mat-paginator>
+	</mat-card-content>
+</mat-card>

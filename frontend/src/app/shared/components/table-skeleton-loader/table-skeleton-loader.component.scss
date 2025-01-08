@@ -1,0 +1,13 @@
+.table-skeleton-loader-wrapper {
+	.table--skeleton-loader {
+		padding: 15px 15px 0;
+
+		&:not(:first-child) {
+			border-top: 1px solid var(--divider);
+		}
+
+		.skeleton-loader {
+			height: 40px;
+		}
+	}
+}

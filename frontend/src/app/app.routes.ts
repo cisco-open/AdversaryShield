@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { ReleasesStateService } from './pages/releases/services/releases-state.service';
 import { LayoutComponent } from './shared/components/layout/layout.component';
 import { RoutesList } from './shared/constants/routes-list.constants';
 
@@ -11,6 +12,11 @@ export const routes: Routes = [
 			{
 				path: RoutesList.HOME.ROOT,
 				loadComponent: () => import('./pages/dashboard/dashboard.component').then((mod) => mod.DashboardComponent)
+			},
+			{
+				path: RoutesList.RELEASES.ROOT,
+				loadComponent: () => import('./pages/releases/releases.component').then((mod) => mod.ReleasesComponent),
+				providers: [ReleasesStateService]
 			},
 			{
 				path: RoutesList.DEFENSES.ROOT,

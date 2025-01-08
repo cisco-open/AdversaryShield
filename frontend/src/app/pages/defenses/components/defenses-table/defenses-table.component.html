@@ -1,5 +1,5 @@
 <div>
-	@if (defensesStore.isLoading() === false && dataSource().data.length > 0) {
+	@if (!defensesStore.isLoading() && dataSource().data.length > 0) {
 		<table mat-table [dataSource]="dataSource()">
 			<ng-container matColumnDef="id">
 				<th mat-header-cell *matHeaderCellDef>#</th>
@@ -19,15 +19,15 @@
 				<th mat-header-cell *matHeaderCellDef></th>
 				<td mat-cell *matCellDef="let defense">
 					<div class="defense-wrapper">
-						<button mat-icon-button aria-label="View" (click)="viewDefense(defense.id)">
+						<button mat-icon-button aria-label="View" (click)="viewDefense(defense.id)" matTooltip="View defense">
 							<mat-icon class="mat-primary">visibility</mat-icon>
 						</button>
 
-						<button mat-icon-button aria-label="Edit" (click)="editDefense(defense.id)">
+						<button mat-icon-button aria-label="Edit" (click)="editDefense(defense.id)" matTooltip="Edit defense">
 							<mat-icon class="mat-primary">edit</mat-icon>
 						</button>
 
-						<button mat-icon-button aria-label="Remove" (click)="removeDefense(defense.id)">
+						<button mat-icon-button aria-label="Remove" (click)="removeDefense(defense.id)" matTooltip="Remove defense">
 							<mat-icon class="mat-error">delete</mat-icon>
 						</button>
 					</div>
@@ -37,6 +37,10 @@
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 		</table>
+	} @else if (defensesStore.isLoading()) {
+		<div class="mt-4">
+			<table-skeleton-loader [count]="4"></table-skeleton-loader>
+		</div>
 	} @else {
 		<as-table-no-records></as-table-no-records>
 	}

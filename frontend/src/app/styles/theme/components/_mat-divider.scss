@@ -3,7 +3,7 @@
 :root {
 	@include mat.divider-overrides(
 		(
-			color: rgba(113, 122, 131, 0.2)
+			color: var(--divider)
 		)
 	);
 }

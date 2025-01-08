@@ -1,0 +1,27 @@
+<mat-card class="as-card-wrapper" appearance="outlined">
+	<mat-card-header class="as-card-header-style">
+		<mat-card-title>
+			<div class="heading-section-title">Create release</div>
+		</mat-card-title>
+	</mat-card-header>
+
+	<mat-card-content>
+		<div class="defenses-content-wrapper">
+			<div class="defenses-table">
+				<p class="heading-sub-section-title">Defenses</p>
+				<as-releases-defenses-table></as-releases-defenses-table>
+			</div>
+			<div class="parameters-table">
+				<p class="heading-sub-section-title">Parameters</p>
+				<as-releases-defenses-parameters-table> </as-releases-defenses-parameters-table>
+			</div>
+		</div>
+
+		@let selectedDefense = releasesStateService.selectedDefense$ | async;
+		<div class="mt-4">
+			<button mat-flat-button color="primary" [disabled]="!selectedDefense" (click)="createRelease(selectedDefense)">
+				Create release
+			</button>
+		</div>
+	</mat-card-content>
+</mat-card>

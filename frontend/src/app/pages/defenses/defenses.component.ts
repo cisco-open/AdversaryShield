@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { take } from 'rxjs';
 import { Defense } from '../../services/client/models/defenses/defense.interface';
 import { DrawerClose, DrawerService, DrawerStatus } from '../../shared/components/drawer';
@@ -12,7 +13,7 @@ import { DefensesTableComponent } from './components/defenses-table/defenses-tab
 
 @Component({
 	selector: 'as-defenses',
-	imports: [MatCardModule, DefensesTableComponent, MatIconModule, MatButtonModule],
+	imports: [MatCardModule, DefensesTableComponent, MatIconModule, MatButtonModule, MatTooltipModule],
 	templateUrl: './defenses.component.html',
 	styleUrl: './defenses.component.scss'
 })
@@ -21,12 +22,15 @@ export class DefensesComponent {
 	readonly drawerService = inject(DrawerService);
 
 	addDefense() {
+		const defensesList = this.defensesStore.defenses();
+
 		const drawerRef = this.drawerService.open(DefensesActionsDrawerComponent, {
 			title: 'Add defense',
 			saveButtonLabel: 'Add',
 			showCloseButton: true,
 			closeButtonLabel: 'Close',
-			actionType: DrawerActionTypeEnum.ADD
+			actionType: DrawerActionTypeEnum.ADD,
+			data: { defensesList }
 		});
 
 		drawerRef

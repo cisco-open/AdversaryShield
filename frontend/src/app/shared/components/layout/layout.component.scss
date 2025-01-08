@@ -1,5 +1,12 @@
-mat-sidenav-container {
+mat-sidenav-container,
+mat-sidenav-content {
 	height: 100%;
+}
+
+mat-sidenav-content {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 }
 
 mat-sidenav {
@@ -7,13 +14,15 @@ mat-sidenav {
 }
 
 as-footer {
+	width: 100%;
 	height: 60px;
-	position: absolute;
-	width: 97%;
-	bottom: 10px;
 }
 
 .body-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	flex: 1;
 	padding: 30px;
 }
 

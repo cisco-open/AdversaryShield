@@ -1,5 +1,5 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
 		provideInterceptors(),
 		provideSharedServices(),
 		provideMaterialCustomServices(),
-		provideRouter(routes),
+		provideRouter(routes, withPreloading(PreloadAllModules)),
 		provideAnimationsAsync()
 	]
 };

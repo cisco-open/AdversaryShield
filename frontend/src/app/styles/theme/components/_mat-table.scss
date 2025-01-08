@@ -1,0 +1,11 @@
+.mat-mdc-row:hover .mat-mdc-cell {
+	background-color: var(--backgrounds-80);
+}
+
+.mat-mdc-row.selected {
+	background-color: var(--accent-50);
+}
+
+.mat-mdc-row.selected:hover .mat-mdc-cell {
+	background-color: var(--accent-100);
+}

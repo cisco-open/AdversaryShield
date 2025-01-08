@@ -7,6 +7,7 @@ import { Defense } from '../../../../services/client/models/defenses/defense.int
 import { DRAWER_DATA, DrawerComponent, DrawerRef, DrawerStatus } from '../../../../shared/components/drawer';
 import { DrawerActionTypeEnum } from '../../../../shared/components/drawer/models/enums/drawer-action-type.enum';
 import { FormErrorDisplayDirective } from '../../../../shared/directives/form-error-display/form-error-display.directive';
+import { uniqueNameValidator } from '../../../../shared/directives/form-error-display/validators/unique-name.validator';
 import { urlValidator } from '../../../../shared/directives/form-error-display/validators/url.validator';
 import { DefensesParametersFormArrayComponent } from '../defenses-parameters-form-array/defenses-parameters-form-array.component';
 
@@ -56,6 +57,14 @@ export class DefensesActionsDrawerComponent implements OnInit, AfterViewInit {
 			name: [null, Validators.required],
 			repoUrl: [null, [Validators.required, urlValidator()]]
 		});
+
+		if (this.drawerConfig.actionType === DrawerActionTypeEnum.ADD) {
+			const defensesList: Defense[] = this.drawerConfig.data?.defensesList || [];
+			const allDefenseNames = defensesList.map((def) => def.name || '');
+			const nameControl = this.form.get('name');
+			nameControl?.addValidators(uniqueNameValidator(allDefenseNames));
+			nameControl?.updateValueAndValidity();
+		}
 	}
 
 	private configureEditOrViewTypeActions() {
@@ -69,6 +78,10 @@ export class DefensesActionsDrawerComponent implements OnInit, AfterViewInit {
 		defense?.parameters?.forEach((param) => {
 			this.panelParameters()?.addParameter(param);
 		});
+
+		if (this.drawerConfig.actionType === DrawerActionTypeEnum.EDIT) {
+			this.form.get('name')?.disable();
+		}
 
 		if (this.drawerConfig.actionType === DrawerActionTypeEnum.VIEW) {
 			this.form.disable();

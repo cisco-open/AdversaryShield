@@ -1,5 +1,5 @@
 <div>
-	@if (dataSource().data.length !== 0) {
+	@if (!targetModelsStore.isLoading() && dataSource().data.length !== 0) {
 		<table mat-table [dataSource]="dataSource()">
 			<ng-container matColumnDef="id">
 				<th mat-header-cell *matHeaderCellDef>#</th>
@@ -25,11 +25,19 @@
 				<th mat-header-cell *matHeaderCellDef></th>
 				<td mat-cell *matCellDef="let targetModel">
 					<div class="target-model-wrapper">
-						<button mat-icon-button aria-label="Edit" (click)="editTargetModel(targetModel.id)">
+						<button
+							mat-icon-button
+							aria-label="Edit"
+							(click)="editTargetModel(targetModel.id)"
+							matTooltip="Edit target model">
 							<mat-icon class="mat-primary">edit</mat-icon>
 						</button>
 
-						<button mat-icon-button aria-label="Remove" (click)="removeTargetModel(targetModel.id)">
+						<button
+							mat-icon-button
+							aria-label="Remove"
+							(click)="removeTargetModel(targetModel.id)"
+							matTooltip="Remove target model">
 							<mat-icon class="mat-error">delete</mat-icon>
 						</button>
 					</div>
@@ -39,6 +47,10 @@
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 		</table>
+	} @else if (targetModelsStore.isLoading()) {
+		<div class="mt-4">
+			<table-skeleton-loader [count]="4"></table-skeleton-loader>
+		</div>
 	} @else {
 		<as-table-no-records></as-table-no-records>
 	}

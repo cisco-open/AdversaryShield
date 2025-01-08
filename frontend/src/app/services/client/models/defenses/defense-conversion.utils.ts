@@ -87,3 +87,13 @@ export function convertDefenseToBackend(defenses: Defense[]): DefenseResponseDTO
 		}))
 	};
 }
+
+export function convertDefenseToReleasePostPayload(defense: Defense): DefenseWrapperDTO {
+	return {
+		defense: {
+			name: defense.name ?? 'Unnamed Release',
+			repo_url: defense.repoUrl ?? 'default',
+			version: defense.version ?? '0.0.0'
+		}
+	};
+}

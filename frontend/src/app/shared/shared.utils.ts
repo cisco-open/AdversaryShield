@@ -9,15 +9,15 @@ export function isEmptyObject(obj: any): boolean {
 	);
 }
 
-export function isNil(obj: any): boolean {
+export function isNil<T>(obj: T | null | undefined): obj is null | undefined {
 	return obj === null || obj === undefined;
 }
 
-export function isNilOrEmptyString(obj: any): boolean {
+export function isNilOrEmptyString(obj: unknown): obj is null | undefined | '' {
 	return obj === null || obj === undefined || obj === '';
 }
 
-export function isEmptyArray(obj: any): boolean {
+export function isEmptyArray(obj: unknown): obj is never[] {
 	return Array.isArray(obj) && obj.length === 0;
 }
 

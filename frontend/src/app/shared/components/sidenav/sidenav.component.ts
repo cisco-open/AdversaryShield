@@ -4,6 +4,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { RoutesList } from '../../constants/routes-list.constants';
 import { SidenavItem } from './models/sidenav.interface';
 
 @Component({
@@ -17,17 +18,22 @@ export class SidenavComponent {
 
 	sidebarMenu: SidenavItem[] = [
 		{
-			route: '/home',
+			route: `/${RoutesList.HOME.ROOT}`,
 			icon: 'home',
 			label: 'Dashboard'
 		},
 		{
-			route: '/defenses',
+			route: `/${RoutesList.RELEASES.ROOT}`,
+			icon: 'new_releases',
+			label: 'Releases'
+		},
+		{
+			route: `/${RoutesList.DEFENSES.ROOT}`,
 			icon: 'security',
 			label: 'Defenses'
 		},
 		{
-			route: '/target-models',
+			route: `/${RoutesList.TARGET_MODELS.ROOT}`,
 			icon: 'storage',
 			label: 'Target Models'
 		}

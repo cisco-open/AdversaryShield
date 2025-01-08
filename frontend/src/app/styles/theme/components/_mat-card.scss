@@ -7,3 +7,13 @@
 
 	@include mat.elevation(1);
 }
+
+.as-card-header-style {
+	background-color: var(--backgrounds-100);
+	border-radius: 10px;
+
+	&.mat-mdc-card-header {
+		padding-top: 12px;
+		padding-bottom: 12px;
+	}
+}

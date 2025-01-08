@@ -36,7 +36,10 @@ export const DefensesStore = signalStore(
 				.pipe(take(1))
 				.subscribe((response: DefenseResponseDTO) => {
 					const defenses = convertDefenseToFrontend(response);
-					patchState(store, { defenses, isLoading: false });
+
+					setTimeout(() => {
+						patchState(store, { defenses, isLoading: false });
+					}, 200); // Ensures skeleton is shown at least for a brief moment
 				});
 		},
 		removeById(id: number): void {

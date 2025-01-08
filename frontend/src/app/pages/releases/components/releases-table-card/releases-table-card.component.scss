@@ -1,0 +1,24 @@
+.mat-column-name {
+	width: 35%;
+}
+
+.mat-column-namespace {
+	width: 20%;
+}
+
+.mat-column-revision {
+	width: 20%;
+	text-align: center;
+}
+
+.mat-column-status {
+	width: 14%;
+}
+
+.mat-column-actions {
+	width: 11%;
+
+	.release-actions-wrapper {
+		text-align: right;
+	}
+}

@@ -2,6 +2,9 @@ export const RoutesList = {
 	HOME: {
 		ROOT: 'home'
 	},
+	RELEASES: {
+		ROOT: 'releases'
+	},
 	DEFENSES: {
 		ROOT: 'defenses'
 	},

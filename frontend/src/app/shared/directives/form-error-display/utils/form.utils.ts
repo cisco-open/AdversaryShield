@@ -5,6 +5,7 @@ import { MAX_DATE_VALIDATOR_IDENTIFIER } from '../validators/max-date.validator'
 import { MAX_DECIMALS_VALIDATOR_IDENTIFIER } from '../validators/max-decimals.validator';
 import { MIN_DATE_VALIDATOR_IDENTIFIER } from '../validators/min-date.validator';
 import { ONLY_DIGITS_VALIDATOR_IDENTIFIER } from '../validators/only-digits.validator';
+import { UNIQUE_NAME_VALIDATOR_IDENTIFIER } from '../validators/unique-name.validator';
 import { URL_VALIDATOR_IDENTIFIER } from '../validators/url.validator';
 
 export function getValidationErrorMessage(errors: ValidationErrors | null): string | undefined {
@@ -32,7 +33,8 @@ export function getValidationErrorMessage(errors: ValidationErrors | null): stri
 		[MAX_DECIMALS_VALIDATOR_IDENTIFIER]: (d) => `Maximum ${d.maxDecimals} decimal places allowed`,
 		[COMMA_SEPARATED_VALUES_VALIDATOR_IDENTIFIER]: 'Values must be a comma-separated list of numbers',
 		[INTERVAL_VALIDATOR_IDENTIFIER]: (d) => `Value must be between ${d.min} and ${d.max}.`,
-		[URL_VALIDATOR_IDENTIFIER]: 'Invalid URL format'
+		[URL_VALIDATOR_IDENTIFIER]: 'Invalid URL format',
+		[UNIQUE_NAME_VALIDATOR_IDENTIFIER]: 'This name already exists.'
 	};
 
 	const message = errorMessages[error];

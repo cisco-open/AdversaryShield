@@ -102,7 +102,6 @@ $typography: mat.m2-define-rem-typography-config(
 	@include mat.fab-theme($theme);
 	@include mat.sidenav-theme($theme);
 	@include mat.ripple-theme($theme);
-	@include mat.form-field-theme($theme);
 	@include mat.menu-theme($theme);
 	@include mat.input-theme($theme);
 	@include mat.icon-button-theme($theme);
@@ -114,6 +113,7 @@ $typography: mat.m2-define-rem-typography-config(
 	@include mat.tooltip-theme($theme);
 	@include mat.select-theme($theme);
 	@include mat.snack-bar-theme($theme);
+	@include mat.progress-spinner-theme($theme);
 
 	@include mat.form-field-density(-4);
 }

@@ -36,7 +36,10 @@ export const TargetModelsStore = signalStore(
 				.pipe(take(1))
 				.subscribe((response: TargetModelResponseDTO) => {
 					const targetModels = convertTargetModelsToFrontend(response);
-					patchState(store, { targetModels, isLoading: false });
+
+					setTimeout(() => {
+						patchState(store, { targetModels, isLoading: false });
+					}, 200); // Ensures skeleton is shown at least for a brief moment
 				});
 		},
 		removeById(id: number): void {

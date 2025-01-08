@@ -1,15 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, HostListener, inject, input, output, Signal, TemplateRef } from '@angular/core';
+import {
+	Component,
+	computed,
+	DestroyRef,
+	HostListener,
+	inject,
+	input,
+	output,
+	Signal,
+	TemplateRef
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DialogRef } from '../dialog.ref';
 import { DIALOG_DATA } from '../dialog.tokens';
 import { getDialogSizeStyles } from '../dialog.utils';
 import { DialogStatus } from '../models/enums/dialog-status.enum';
 import { DialogSizeStylesPipe } from '../pipes/dialog-size-style.pipe';
 
-@UntilDestroy()
 @Component({
 	selector: 'as-dialog',
 	templateUrl: './dialog.component.html',
@@ -19,6 +28,7 @@ import { DialogSizeStylesPipe } from '../pipes/dialog-size-style.pipe';
 })
 export class DialogComponent {
 	readonly dialogRef = inject(DialogRef);
+	readonly destroyRef = inject(DestroyRef);
 	readonly data = inject(DIALOG_DATA);
 
 	readonly headerTemplate = input<TemplateRef<any>>();
@@ -66,7 +76,7 @@ export class DialogComponent {
 
 		this.dialogRef
 			.backdropClick()
-			.pipe(untilDestroyed(this))
+			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.onDismiss();
 			});

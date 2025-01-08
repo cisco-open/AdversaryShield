@@ -12,12 +12,13 @@ import { DialogMessageService } from '../../../../shared/components/dialog/featu
 import { DrawerClose, DrawerService, DrawerStatus } from '../../../../shared/components/drawer';
 import { DrawerActionTypeEnum } from '../../../../shared/components/drawer/models/enums/drawer-action-type.enum';
 import { TableNoRecordsComponent } from '../../../../shared/components/table-no-records/table-no-records.component';
+import { TableSkeletonLoaderComponent } from '../../../../shared/components/table-skeleton-loader/table-skeleton-loader.component';
 import { isNil } from '../../../../shared/shared.utils';
 import { DefensesStore } from '../../../../state/defenses/defenses.store';
 import { DefensesActionsDrawerComponent } from '../defenses-actions-drawer/defenses-actions-drawer.component';
 
 @Component({
-	selector: 'as-defenses-table',
+	selector: 'as-releases-defenses-table',
 	imports: [
 		MatTableModule,
 		MatPaginatorModule,
@@ -25,7 +26,8 @@ import { DefensesActionsDrawerComponent } from '../defenses-actions-drawer/defen
 		MatIconModule,
 		MatButtonModule,
 		MatDividerModule,
-		TableNoRecordsComponent
+		TableNoRecordsComponent,
+		TableSkeletonLoaderComponent
 	],
 	templateUrl: './defenses-table.component.html',
 	styleUrl: './defenses-table.component.scss',
@@ -42,8 +44,6 @@ export class DefensesTableComponent implements OnInit, AfterViewInit {
 	dataSource = linkedSignal<Defense[], MatTableDataSource<Defense>>({
 		source: this.defenses,
 		computation: (newDefenses, previous) => {
-			console.log(this.defenses());
-
 			const dataSource = previous?.value ?? new MatTableDataSource<Defense>();
 			const transformedData = newDefenses.map((defense) => ({
 				id: defense.id,
@@ -121,7 +121,8 @@ export class DefensesTableComponent implements OnInit, AfterViewInit {
 				message: 'Are you sure you want to remove it?'
 			},
 			{
-				closeButtonLabel: 'No'
+				closeButtonLabel: 'No',
+				width: '800px'
 			}
 		);
 

@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, TemplateRef, inject, input, output } from '@angular/core';
+import { Component, DestroyRef, HostListener, TemplateRef, inject, input, output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DrawerRef } from '../drawer.ref';
 import { DRAWER_DATA } from '../drawer.tokens';
 import { DrawerStatus } from '../models/enums/drawer-status.enum';
 import { DrawerSizeStylesPipe } from '../pipes/drawer-size-style.pipe';
 
-@UntilDestroy()
 @Component({
 	selector: 'drawer',
 	templateUrl: './drawer.component.html',
@@ -17,8 +16,9 @@ import { DrawerSizeStylesPipe } from '../pipes/drawer-size-style.pipe';
 	imports: [CommonModule, MatButtonModule, MatIconModule, DrawerSizeStylesPipe]
 })
 export class DrawerComponent {
-	drawerRef = inject(DrawerRef);
-	data = inject(DRAWER_DATA);
+	readonly drawerRef = inject(DrawerRef);
+	readonly destroyRef = inject(DestroyRef);
+	readonly data = inject(DRAWER_DATA);
 
 	readonly headerTemplate = input<TemplateRef<any>>();
 	readonly actionsTemplate = input<TemplateRef<any>>();
@@ -53,7 +53,7 @@ export class DrawerComponent {
 
 		this.drawerRef
 			.backdropClick()
-			.pipe(untilDestroyed(this))
+			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.onDismiss();
 			});

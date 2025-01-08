@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { take } from 'rxjs';
 import { TargetModel } from '../../services/client/models/target-models/target-model.interface';
 import { DrawerClose, DrawerService, DrawerStatus } from '../../shared/components/drawer';
@@ -12,7 +13,7 @@ import { TargetModelsTableComponent } from './components/target-models-table/tar
 
 @Component({
 	selector: 'as-target-models',
-	imports: [MatCardModule, MatIconModule, MatButtonModule, TargetModelsTableComponent],
+	imports: [MatCardModule, MatTooltipModule, MatIconModule, MatButtonModule, TargetModelsTableComponent],
 	templateUrl: './target-models.component.html',
 	styleUrl: './target-models.component.scss'
 })

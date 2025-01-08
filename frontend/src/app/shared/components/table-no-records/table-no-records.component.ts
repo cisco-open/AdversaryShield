@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -7,4 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 	templateUrl: './table-no-records.component.html',
 	styleUrl: './table-no-records.component.scss'
 })
-export class TableNoRecordsComponent {}
+export class TableNoRecordsComponent {
+	message = input('No records');
+}
